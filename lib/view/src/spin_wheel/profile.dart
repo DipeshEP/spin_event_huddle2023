@@ -34,7 +34,7 @@ class Profile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  // width:width* 0.6,
+
                   height: height * 0.15,
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -52,16 +52,16 @@ class Profile extends StatelessWidget {
                           Text(
                             user.name,
                             style:
-                                Theme.of(context).textTheme.titleMedium!.copyWith(
-                                      color: Colors.white70,
-                                    ),
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                              color: Colors.white70,
+                            ),
                           ),
                           Text(
                             emailcaracter,
                             style:
-                                Theme.of(context).textTheme.labelLarge!.copyWith(
-                                      color: Colors.white70,
-                                    ),
+                            Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: Colors.white70,
+                            ),
                           ),
                         ],
                       ),
@@ -70,14 +70,16 @@ class Profile extends StatelessWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => SpinWheel(
                               user: user,
-
+                            ),
+                          ));
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                         child: Text(
                           "confirm",
                           style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                                color: Colors.white70,
-                              ),
+                            color: Colors.white70,
+                          ),
                         ),
                       ),
                     ],
@@ -91,4 +93,3 @@ class Profile extends StatelessWidget {
     );
   }
 }
-//https://images.unsplash.com/photo-1557683304-673a23048d34?auto=format&fit=crop&q=80&w=1700&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
