@@ -5,12 +5,12 @@ import '../../../model/modeluser.dart';
 
 // ignore: must_be_immutable
 class Profile extends StatelessWidget {
-  User user;
+  AllAddedUsers user;
   Profile({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
-    String email = user.email;
+    String email = user.email!;
     var nameuser = email.split("@");
     var emailcaracter = email.replaceRange(
         2, nameuser[0].length, "*" * (nameuser[0].length - 2));
@@ -38,7 +38,7 @@ class Profile extends StatelessWidget {
                   height: height * 0.15,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(user.proimage), fit: BoxFit.cover),
+                        image: NetworkImage(user.image!), fit: BoxFit.cover),
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
@@ -50,7 +50,7 @@ class Profile extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            user.name,
+                            user.name!,
                             style:
                                 Theme.of(context).textTheme.titleMedium!.copyWith(
                                       color: Colors.white70,
@@ -70,7 +70,9 @@ class Profile extends StatelessWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => SpinWheel(
                               user: user,
-
+                            ),
+                          ));
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                         child: Text(

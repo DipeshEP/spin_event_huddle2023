@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
@@ -7,7 +8,7 @@ import '../../../model/modeluser.dart';
 
 
 class SpinWheel extends StatefulWidget {
-  User user;
+  AllAddedUsers user;
   SpinWheel({super.key, required this.user});
 
   @override
@@ -25,16 +26,22 @@ class _SpinWheelState extends State<SpinWheel> {
   @override
   Widget build(BuildContext context) {
     final items = <String>[
-      'Grogu',
-      'Mace Windu',
-      'Obi-Wan Kenobi',
-      'Han Solo',
-      'Luke Skywalker',
-      'Darth Vader',
-      'Yoda',
-      'Ahsoka Tano',
+      'Cherry',
+      'Wocher 200',
+      'Watch',
+      'Cherry',
+      'Wocher 100',
+      'Earbud',
+      'Cherry',
+      'Wocher 200',
+      'Speaker',
+      'Cherry',
+      'Wocher 100',
+      'Cap',
+      
     ];
-    String email = widget.user.email;
+      int? index; 
+    String email = widget.user.email!;
     var nameuser = email.split("@");
     var emailcaracter = email.replaceRange(
         2, nameuser[0].length, "*" * (nameuser[0].length - 2));
@@ -53,7 +60,7 @@ class _SpinWheelState extends State<SpinWheel> {
           title: Row(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(widget.user.proimage),
+                backgroundImage: NetworkImage(widget.user.image!),
                 radius: 40,
               ),
               const SizedBox(
@@ -63,7 +70,7 @@ class _SpinWheelState extends State<SpinWheel> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.user.name,
+                    widget.user.name!,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: Colors.black,
                         ),
@@ -81,18 +88,29 @@ class _SpinWheelState extends State<SpinWheel> {
         ),
         body: GestureDetector(
           onTap: () {
+            int random=Fortune.randomInt(0, items.length);
+            log(random.toString());
+            ;
             setState(() {
-              selected.add(
-                Fortune.randomInt(0, items.length),
-              );
+              
+              selected.add(random);
+               index=random;
             });
+            // setState(() {
+             
+            // });
           },
           child: Column(
             children: [
               Expanded(
                 child: FortuneWheel(
+                  onAnimationEnd: () {
+                  
+                 setState(() {
+                      log(items[index!+1]);
+                 });
+                  },
                   animateFirst: false,
-                  indicators: [],
                   selected: selected.stream,
                   items: [
                     for (var it in items) FortuneItem(child: Text(it)),
