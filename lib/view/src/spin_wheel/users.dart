@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/profile.dart';
 
+import '../../../const/firebase_const.dart';
 import '../../../model/modeluser.dart';
 
 
@@ -71,10 +72,13 @@ class Users extends StatelessWidget {
                       ),
                 ),
                 trailing: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Profile(user: userlist[index]),
-                    ));
+                  onPressed: ()async {
+                   await firestore.collection("web test").add({
+                      "data":"data"
+                    });
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //   builder: (context) => Profile(user: userlist[index]),
+                    // ));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
