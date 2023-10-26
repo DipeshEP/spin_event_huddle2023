@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
+import 'package:spin_event_2023/controller/spin_api.dart';
 
 import '../../../model/modeluser.dart';
 
@@ -14,9 +15,10 @@ class SpinWheel extends StatefulWidget {
   @override
   State<SpinWheel> createState() => _SpinWheelState();
 }
+StreamController<int> selected = StreamController<int>();
 
 class _SpinWheelState extends State<SpinWheel> {
-  StreamController<int> selected = StreamController<int>();
+ 
   @override
   void dispose() {
     selected.close();
@@ -88,17 +90,11 @@ class _SpinWheelState extends State<SpinWheel> {
         ),
         body: GestureDetector(
           onTap: () {
-            int random=Fortune.randomInt(0, items.length);
-            log(random.toString());
-            ;
             setState(() {
-              
-              selected.add(random);
-               index=random;
+              selected.add(SpinApi.spinButtonClik());
             });
-            // setState(() {
-             
-            // });
+            // SpinApi().spinButtonClik();
+          
           },
           child: Column(
             children: [
@@ -106,9 +102,48 @@ class _SpinWheelState extends State<SpinWheel> {
                 child: FortuneWheel(
                   onAnimationEnd: () {
                   
-                 setState(() {
-                      log(items[index!+1]);
-                 });
+                       log('===========');
+                       log('=====${SpinApi.random}=======');
+                      log(items[SpinApi.random]);
+
+                      showDialog(
+    context: context,
+  // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog( // <-- SEE HERE
+      
+        title: const Text('Cancel booking',textAlign: TextAlign.center,),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children:  <Widget>[
+              Text(items[SpinApi.random],textAlign: TextAlign.center,),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              OutlinedButton(
+                child: const Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              OutlinedButton(
+          child: const Text('Yes'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          ),
+            ],
+          ),
+          
+        ],
+      );
+    },
+  );
+               
                   },
                   animateFirst: false,
                   selected: selected.stream,
