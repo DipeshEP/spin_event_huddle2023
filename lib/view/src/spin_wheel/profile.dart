@@ -70,9 +70,7 @@ class Profile extends StatelessWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => SpinWheel(
                               user: user,
-                            ),
-                          ));
-                        },
+
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                         child: Text(
