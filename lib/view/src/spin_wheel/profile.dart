@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spin_event_2023/const/firebase_const.dart';
-import 'package:spin_event_2023/model/product_model.dart';
-import 'package:spin_event_2023/view/src/spin_wheel/spin.dart';
+import 'package:spin_event_2023/model/modeluser.dart';
+import 'package:spin_event_2023/view/src/spin_wheel/spin%20.dart';
 
-import '../../../model/modeluser.dart';
+
 
 // ignore: must_be_immutable
 class Profile extends StatelessWidget {
@@ -12,10 +11,10 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String email = user.email;
-    var nameuser = email.split("@");
-    var emailcaracter = email.replaceRange(
-        2, nameuser[0].length, "*" * (nameuser[0].length - 2));
+    String? email = user.email;
+    var nameuser = email?.split("@");
+    var emailcaracter = email?.replaceRange(
+        2, nameuser![0].length, "*" * (nameuser![0].length - 2));
     print(emailcaracter);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -24,7 +23,7 @@ class Profile extends StatelessWidget {
         child: Container(
           clipBehavior: Clip.antiAlias,
           width: width * 0.6,
-          height: height * 0.28,
+          height: height * 0.35,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.green, width: 2),
             borderRadius: BorderRadius.circular(16),
@@ -37,68 +36,66 @@ class Profile extends StatelessWidget {
               children: [
                 Container(
 
-                  height: height * 0.15,
+                  height: height * 0.25,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(user.proimage), fit: BoxFit.cover),
+                        image: NetworkImage(user.image!), fit: BoxFit.cover),
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                Flexible(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.name,
-                            style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                              color: Colors.white70,
-                            ),
-                          ),
-                          Text(
-                            emailcaracter,
-                            style:
-                            Theme.of(context).textTheme.labelLarge!.copyWith(
-                              color: Colors.white70,
-                            ),
-                          ),
-                        ],
-                      ),
-                      ElevatedButton(
-                          onPressed: () async {
-
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => SpinWheel(
-                                user: user,
-                              ),
-                            ));
-                            // var product =  ProductModel();
-                            // await firestore.collection(spinEventCollection).
-                            // doc(productDoc).collection(day3).doc("blutoothSpeaker2").set({
-                            //   "proName": "blutoothSpeaker2" ,
-                            //   "price" : 549 ,
-                            //   "isClaim" :false ,
-                            //   "proImage" :"https://rukminim2.flixcart.com/image/832/832/kckud8w0/speaker/mobile-tablet-speaker/i/j/m/zeb-county-zebronics-original-imaftzyfzptmghe7.jpeg?q=70",
-                            // });
-
-                          },
-
-
-
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green),
-                        child: Text(
-                          "confirm",
-                          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user.name!,
+                          style:
+                          Theme.of(context).textTheme.titleMedium!.copyWith(
                             color: Colors.white70,
                           ),
                         ),
+                        Text(
+                          emailcaracter!,
+                          style:
+                          Theme.of(context).textTheme.labelLarge!.copyWith(
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ],
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SpinWheel(
+                              user: user,
+                            ),
+                          ));
+                          // var product =  ProductModel();
+                          // await firestore.collection(spinEventCollection).
+                          // doc(productDoc).collection(day3).doc("blutoothSpeaker2").set({
+                          //   "proName": "blutoothSpeaker2" ,
+                          //   "price" : 549 ,
+                          //   "isClaim" :false ,
+                          //   "proImage" :"https://rukminim2.flixcart.com/image/832/832/kckud8w0/speaker/mobile-tablet-speaker/i/j/m/zeb-county-zebronics-original-imaftzyfzptmghe7.jpeg?q=70",
+                          // });
+
+                        },
+
+
+
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green),
+                      child: Text(
+                        "confirm",
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: Colors.white70,
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
