@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/users.dart';
 
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
@@ -22,7 +23,7 @@ Future main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key});               
 
   // This widget is the root of your application.
   @override
