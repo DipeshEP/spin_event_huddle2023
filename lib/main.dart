@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:spin_event_2023/view/src/spin_wheel/users.dart';
+import 'package:spin_event_2023/view/src/spin_wheel/users%20.dart';
 
 
 Future main() async {
