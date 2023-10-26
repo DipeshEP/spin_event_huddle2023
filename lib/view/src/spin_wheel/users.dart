@@ -73,12 +73,10 @@ class Users extends StatelessWidget {
                 ),
                 trailing: ElevatedButton(
                   onPressed: ()async {
-                   await firestore.collection("web test").add({
-                      "data":"data"
-                    });
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //   builder: (context) => Profile(user: userlist[index]),
-                    // ));
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Profile(user: userlist[index]),
+                    ));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,

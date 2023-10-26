@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spin_event_2023/const/firebase_const.dart';
+import 'package:spin_event_2023/model/product_model.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/spin.dart';
 
 import '../../../model/modeluser.dart';
@@ -66,13 +68,26 @@ class Profile extends StatelessWidget {
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SpinWheel(
-                              user: user,
-                            ),
-                          ));
-                        },
+                          onPressed: () async {
+
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SpinWheel(
+                                user: user,
+                              ),
+                            ));
+                            // var product =  ProductModel();
+                            // await firestore.collection(spinEventCollection).
+                            // doc(productDoc).collection(day3).doc("blutoothSpeaker2").set({
+                            //   "proName": "blutoothSpeaker2" ,
+                            //   "price" : 549 ,
+                            //   "isClaim" :false ,
+                            //   "proImage" :"https://rukminim2.flixcart.com/image/832/832/kckud8w0/speaker/mobile-tablet-speaker/i/j/m/zeb-county-zebronics-original-imaftzyfzptmghe7.jpeg?q=70",
+                            // });
+
+                          },
+
+
+
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green),
                         child: Text(
