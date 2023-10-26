@@ -68,12 +68,14 @@ class Profile extends StatelessWidget {
                     ),
                      ElevatedButton(
                   onPressed: () {
-                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SpinWheel( user: user, ),));
+
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => SpinWheel( user: user, ),));
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green),
                   child: Text(
-                    "confirm",
+                    "Confirm",
                     style:
                         Theme.of(context).textTheme.labelLarge!.copyWith(
                               color: Colors.white70,
