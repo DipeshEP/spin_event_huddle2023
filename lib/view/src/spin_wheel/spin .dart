@@ -237,7 +237,7 @@ class _SpinWheelState extends State<SpinWheel> {
             ),
           ],
         );
-      },
-    );
-  }
+      },
+    );
+  }
 }
