@@ -92,6 +92,7 @@ class _SpinWheelState extends State<SpinWheel> {
           onTap: () {
             setState(() {
               selected.add(SpinApi.spinButtonClik());
+              // SpinApi().decrementCount();
             });
             // SpinApi().spinButtonClik();
           
