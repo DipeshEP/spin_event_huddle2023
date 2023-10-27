@@ -73,14 +73,7 @@ class Profile extends StatelessWidget {
                               user: user,
                             ),
                           ));
-                          // var product =  ProductModel();
-                          // await firestore.collection(spinEventCollection).
-                          // doc(productDoc).collection(day3).doc("blutoothSpeaker2").set({
-                          //   "proName": "blutoothSpeaker2" ,
-                          //   "price" : 549 ,
-                          //   "isClaim" :false ,
-                          //   "proImage" :"https://rukminim2.flixcart.com/image/832/832/kckud8w0/speaker/mobile-tablet-speaker/i/j/m/zeb-county-zebronics-original-imaftzyfzptmghe7.jpeg?q=70",
-                          // });
+                          
 
                         },
 
