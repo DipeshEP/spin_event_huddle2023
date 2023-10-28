@@ -26,7 +26,8 @@ class SpinApi {
         .snapshots();
   }
 
- static Future<void>decrementCount()async{
+
+static Future<void>decrementCount()async{
     final docRef=firestore.collection(spinEventCollection).doc(logic);
     try {
       DocumentSnapshot documentSnapshot=await docRef.get();
@@ -48,8 +49,10 @@ class SpinApi {
         print("document does not exist");
       }
     } catch (e) {
-      print("error decrementing $e");
-    }
+      print("error decrementing $e");
+ }
+ }
+    
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> fetchOneUser(uid) {
     return firestore
