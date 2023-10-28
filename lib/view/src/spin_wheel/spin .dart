@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
+import 'package:lottie/lottie.dart';
 import 'package:spin_event_2023/controller/spin_api.dart';
 import 'package:spin_event_2023/model/product_model.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/users%20.dart';
 
+import '../../../const/animation.dart';
 import '../../../model/modeluser.dart';
 
 class SpinWheel extends StatefulWidget  {
@@ -17,21 +20,42 @@ class SpinWheel extends StatefulWidget  {
   State<SpinWheel> createState() => _SpinWheelState();
 }
 
-class _SpinWheelState extends State<SpinWheel> {
+class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   StreamController<int> selected = StreamController<int>();
+  late final AnimationController _defaultLottieController;
    //late FlutterGifController controller1;
   
 
   @override
   void initState() {
     selected = StreamController<int>();
+    _defaultLottieController = AnimationController(vsync: this)
+      ..duration = const Duration(seconds: 5);
     super.initState();
   }
   @override
   void dispose() {
     selected.close();
+    _defaultLottieController.dispose();
   //  controller1.dispose();
     super.dispose();
+  }
+
+  _buildLotties() {
+    return Positioned.fill(
+      child: Align(
+        alignment: Alignment.center,
+        child: IgnorePointer(
+          child: Lottie.asset(
+            defaultLottie,
+            controller: _defaultLottieController,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -128,7 +152,7 @@ class _SpinWheelState extends State<SpinWheel> {
           ),
           body: GestureDetector(
             onTap: () {
-              log(userList.first.isSpin.toString());
+             // log(userList.first.isSpin.toString());
               if (userList.first.isSpin == false) {
                 setState(() {
                   selected.add(SpinApi.spinButtonClik());
@@ -171,16 +195,21 @@ class _SpinWheelState extends State<SpinWheel> {
             },
             child: Stack(
               children: [
+                _buildLotties(),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: FortuneWheel(
                       onAnimationStart: () {
+
                         SpinApi.updateCount();
                       },
                       onAnimationEnd: () {
+                        _defaultLottieController
+                            .forward()
+                            .then((value) => _defaultLottieController.reset())
+                            .then((value) => popup(context, productlist));
                         SpinApi.updateUserStatus(userList.first.usId);
-                        popup(context, productlist);
                       },
                       animateFirst: false,
                       selected: selected.stream,
@@ -188,21 +217,30 @@ class _SpinWheelState extends State<SpinWheel> {
                         for (var it in productlist)
                           FortuneItem(
                               child: Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            color: it.color,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(it.price),
-                                Text(it.name),
-                              ],
-                            ),
-                          )),
+                                width: double.infinity,
+                                height: double.infinity,
+                                color: it.color,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Transform.rotate(
+                                        angle:  pi /0.4,
+                                        child: Text(it.price)),
+                                    Transform.rotate(
+                                        angle:  pi /0.4,
+                                        child: Text(it.name)),
+                                    Transform.rotate(
+                                        angle:  pi /0.4,
+                                        child: Image(image: it.image,height: 100,)),
+                                  ],
+                                ),
+                              )),
                       ],
                     ),
                   ),
                 ),
+                _buildLotties(),
+
                
               ],
             ),
