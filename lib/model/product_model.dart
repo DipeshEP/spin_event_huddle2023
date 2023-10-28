@@ -4,11 +4,13 @@ class Products {
   late String name;
   late String price;
   late Color color;
+  late AssetImage image;
 
   Products({
     required this.name,
     required this.price,
     required this.color,
+    required this.image,
   });
 }
 // Cerulean Blue: #007BA7
@@ -23,7 +25,7 @@ class Products {
 //     price: "100",
 //     color: const Color(0xFF007BA7),
 //   ),
- 
+
 //   Products(
 //     name: 'Earbud',
 //     price: "600",
@@ -49,13 +51,13 @@ class Products {
 //     price: "500",
 //     color: const Color(0xFF7D7C7C),
 //   ),
-  
+
 //   Products(
 //     name: 'Cherry',
 //     price: "700",
 //     color:const Color(0xFF007BA7),
 //   ),
- 
+
 //   Products(
 //     name: 'Speaker',
 //     price: "900",
@@ -83,131 +85,142 @@ class Products {
 //   ),
 // ];
 
-//************************************************* */
-final List<Products> productlist = [
-  Products(
-    name: 'Cherry',
-    price: "100",
-    color: const Color(0xFFED1F24),
-  ),
-  Products(
-    name: 'Wocher 200',
-    price: "200",
-    color: const Color(0xFF2776BB),
-  ),
-  Products(
-    name: 'Watch',
-    price: "300",
-    color: const Color(0xFF00E100),
-  ),
-  Products(
-    name: 'Cherry',
-    price: "400",
-    color: const Color(0xFFE1E100),
-  ),
-  Products(
-    name: 'Wocher 100',
-    price: "500",
-    color: const Color(0xFFED1F24),
-  ),
-  Products(
-    name: 'Earbud',
-    price: "600",
-    color:  const Color(0xFF2776BB),
-  ),
-  Products(
-    name: 'Cherry',
-    price: "700",
-    color: const Color(0xFF00E100),
-  ),
-  Products(
-    name: 'Wocher 200',
-    price: "800",
-    color: const Color(0xFFE1E100),
-  ),
-  Products(
-    name: 'Speaker',
-    price: "900",
-    color:const Color(0xFFED1F24),
-  ),
-  Products(
-    name: 'Cherry',
-    price: "1000",
-    color:  const Color(0xFF2776BB),
-  ),
-  Products(
-    name: 'Wocher 100',
-    price: "1100",
-    color: const Color(0xFF00E100),
-  ),
-  Products(
-    name: 'Cap',
-    price: "1200",
-    color: const Color(0xFFE1E100),
-  ),
-];
-
-//**************************************** */
+//***************** */
 // final List<Products> productlist = [
 //   Products(
 //     name: 'Cherry',
 //     price: "100",
-//     color: const Color(0xffE0115F),
+//     color: const Color(0xFFED1F24),
 //   ),
 //   Products(
 //     name: 'Wocher 200',
 //     price: "200",
-//     color: const Color(0xff0067A5),
+//     color: const Color(0xFF2776BB),
 //   ),
 //   Products(
 //     name: 'Watch',
 //     price: "300",
-//     color: const Color(0xff50C878),
+//     color: const Color(0xFF00E100),
 //   ),
 //   Products(
 //     name: 'Cherry',
 //     price: "400",
-//     color: const Color(0xff9966CC),
+//     color: const Color(0xFFE1E100),
 //   ),
 //   Products(
 //     name: 'Wocher 100',
 //     price: "500",
-//     color: const Color(0xffFFD700),
+//     color: const Color(0xFFED1F24),
 //   ),
 //   Products(
 //     name: 'Earbud',
 //     price: "600",
-//     color: const Color(0xff40E0D0),
+//     color:  const Color(0xFF2776BB),
 //   ),
 //   Products(
 //     name: 'Cherry',
 //     price: "700",
-//     color: const Color(0xffB76E79),
+//     color: const Color(0xFF00E100),
 //   ),
 //   Products(
 //     name: 'Wocher 200',
 //     price: "800",
-//     color: const Color(0xffDC143C),
+//     color: const Color(0xFFE1E100),
 //   ),
 //   Products(
 //     name: 'Speaker',
 //     price: "900",
-//     color: const Color(0xff4B0082),
+//     color:const Color(0xFFED1F24),
 //   ),
 //   Products(
 //     name: 'Cherry',
 //     price: "1000",
-//     color: const Color(0xff98FF98),
+//     color:  const Color(0xFF2776BB),
 //   ),
 //   Products(
 //     name: 'Wocher 100',
 //     price: "1100",
-//     color: const Color(0xffFF6F61),
+//     color: const Color(0xFF00E100),
 //   ),
 //   Products(
 //     name: 'Cap',
 //     price: "1200",
-//     color: const Color(0xffC0C0C0),
+//     color: const Color(0xFFE1E100),
 //   ),
 // ];
 
+//************** */
+final List<Products> productlist = [
+  Products(
+    name: 'Cherry',
+    price: "100",
+    color: const Color(0xffE0115F),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Wocher 200',
+    price: "200",
+    color: const Color(0xff0067A5),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Watch',
+    price: "300",
+    color: const Color(0xff50C878),
+    image: const AssetImage("assets/watch.jpg"),
+  ),
+  Products(
+    name: 'Cherry',
+    price: "400",
+    color: const Color(0xff9966CC),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Wocher 100',
+    price: "500",
+    color: const Color(0xffFFD700),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Earbud',
+    price: "600",
+    color: const Color(0xff40E0D0),
+    image: const AssetImage("assets/ear_bud.jpg"),
+  ),
+  Products(
+    name: 'Cherry',
+    price: "700",
+    color: const Color(0xffB76E79),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Wocher 200',
+    price: "800",
+    color: const Color(0xffDC143C),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Speaker',
+    price: "900",
+    color: const Color(0xff4B0082),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Cherry',
+    price: "1000",
+    color: const Color(0xff98FF98),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Wocher 100',
+    price: "1100",
+    color: const Color(0xffFF6F61),
+    image: const AssetImage("assets/speaker.jpg"),
+  ),
+  Products(
+    name: 'Cap',
+    price: "1200",
+    color: const Color(0xffC0C0C0),
+    image: const AssetImage("assets/ear_bud.jpg"),
+  ),
+];
