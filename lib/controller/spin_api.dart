@@ -8,14 +8,57 @@ import '../const/firebase_const.dart';
 class SpinApi {
  
     static late int random;
+    List<DocumentSnapshot> products = [];
 
  static spinButtonClik(){
+      
+    
 
-    random = Fortune.randomInt(0, 11);
+    // random = Fortune.randomInt(0, 11);
+    random=1;
+    if(random==1){
+         decrementProductCount('cap');
+    }
     decrementCount();
     
     return random;
     
+  }
+  static Future<void>decrementProductCount(product)async{
+    final docRef=firestore.collection(spinEventCollection).doc(productDoc).collection('day').doc(product);
+    try {
+      DocumentSnapshot<Map<String, dynamic>> documentSnapshot=await docRef.get();
+      if(documentSnapshot.exists){
+       int  currentCount=documentSnapshot.get('count');
+       print("current cap count..................$currentCount");
+       int newcount=currentCount-1;
+       
+    if (newcount > 0) {
+         await docRef.update({'count': newcount});
+        print('Count decremented successfully.');
+       }else if(newcount==0){
+            await docRef.update({
+              'isClaim': true,
+              'count':0
+              });
+           
+             print('isClaimed successfully.');
+       } 
+     
+      }else{
+        print("document does not exist");
+      }
+    } catch (e) {
+      print("error decrementing $e");
+ }
+ }
+ static Future<QuerySnapshot<Map<String, dynamic>>> fetchProducts() {
+    return firestore
+        .collection("spinEvent")
+        .doc("product")
+        .collection("day").where('isClaim',isEqualTo: false)
+        .get();
+        
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> fetchUser() {
