@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:lottie/lottie.dart';
+import 'package:spin_event_2023/const/animation.dart';
 import 'package:spin_event_2023/controller/spin_api.dart';
 import 'package:spin_event_2023/model/product_model.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/users%20.dart';
@@ -20,21 +21,40 @@ class SpinWheel extends StatefulWidget {
   State<SpinWheel> createState() => _SpinWheelState();
 }
 
-class _SpinWheelState extends State<SpinWheel> {
+class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   StreamController<int> selected = StreamController<int>();
-  //late FlutterGifController controller1;
+  late final AnimationController _defaultLottieController;
 
   @override
   void initState() {
     selected = StreamController<int>();
+    _defaultLottieController = AnimationController(vsync: this)
+      ..duration = const Duration(seconds: 5);
     super.initState();
   }
 
   @override
   void dispose() {
     selected.close();
-    //  controller1.dispose();
+    _defaultLottieController.dispose();
     super.dispose();
+  }
+
+  _buildLotties() {
+    return Positioned.fill(
+      child: Align(
+        alignment: Alignment.center,
+        child: IgnorePointer(
+          child: Lottie.asset(
+            defaultLottie,
+            controller: _defaultLottieController,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -125,83 +145,76 @@ class _SpinWheelState extends State<SpinWheel> {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return
-                      AlertDialog(
-                        backgroundColor: Colors.transparent,
-                        content:GlassmorphicContainer(
-                          height: 450,
-                          width: 450,
-                          alignment: Alignment.center,
-                          border: 2,
-                          linearGradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Colors.white.withOpacity(0.1),
-                              Colors.purple.withOpacity(0.1),
-                            ],
-                          ),
-                          borderGradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              Colors.white.withOpacity(0.1),
-                              Colors.purple.withOpacity(0.1),
-                            ],
-                          ),
-                          blur: 2,
-
-                          borderRadius: 20,
-                          child: Stack(
-                            children: [
-
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height*0.04,
-                                  ),
-                                  Text(
-                                      "You Already Tried",
-                                      style: TextStyle(
-                                          color:Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 30,letterSpacing: 1
-                                      )),
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.05,
-                                  ),
-                                  Center(
-                                    child: OutlinedButton(
-                                        onPressed: (){
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) => Users(),
-                                            ),
-                                          );
-                                        },
-                                        child: const Text("Ok",
-                                          style:TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w600
-                                          ) ,)),
-                                  )
-
-
-                                ],
-                              ),
-                            ],
-                          ),
+                    return AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      content: GlassmorphicContainer(
+                        height: 450,
+                        width: 450,
+                        alignment: Alignment.center,
+                        border: 2,
+                        linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white.withOpacity(0.1),
+                            Colors.purple.withOpacity(0.1),
+                          ],
                         ),
-                      );
+                        borderGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white.withOpacity(0.1),
+                            Colors.purple.withOpacity(0.1),
+                          ],
+                        ),
+                        blur: 2,
+                        borderRadius: 20,
+                        child: Stack(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                    "${userList.first.name},You Already Traied",
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18,
+                                        letterSpacing: 1)),
+                                Image.asset(
+                                  "assets/sad2.png",
+                                  height: 300,
+                                ),
+                                OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => Users(),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text(
+                                      "Ok",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    ))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
                 );
               }
             },
             child: Stack(
               children: [
-                Center(
+                _buildLotties(),
+                const Center(
                   child: CircleAvatar(
                     backgroundColor: Color(0xff8dca87),
                     radius: 540,
@@ -211,12 +224,16 @@ class _SpinWheelState extends State<SpinWheel> {
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: FortuneWheel(
+                      duration: const Duration(seconds: 20),
                       onAnimationStart: () {
                         SpinApi.updateCount();
                       },
                       onAnimationEnd: () {
+                        _defaultLottieController
+                            .forward()
+                            .then((value) => _defaultLottieController.reset())
+                            .then((value) => popup(context, productlist));
                         SpinApi.updateUserStatus(userList.first.usId);
-                        popup(context, productlist);
                       },
                       animateFirst: false,
                       selected: selected.stream,
@@ -234,7 +251,7 @@ class _SpinWheelState extends State<SpinWheel> {
                                 // Transform.rotate(
                                 //   angle:  pi /0.4,
                                 //   child: Text(it.price)),
-                                SizedBox(
+                                const SizedBox(
                                   width: 100,
                                 ),
                                 Transform.rotate(
@@ -253,98 +270,92 @@ class _SpinWheelState extends State<SpinWheel> {
                     ),
                   ),
                 ),
-                
+                _buildLotties()
               ],
             ),
           )),
     );
   }
 
-
   Future<dynamic> popup(BuildContext context, List<Products> productlist) {
     return showDialog(
       context: context,
 // user must tap button!
       builder: (BuildContext context) {
-        return
-          AlertDialog(
-            backgroundColor: Colors.transparent,
-            content:GlassmorphicContainer(
-              height: 450,
-              width: 450,
-              alignment: Alignment.center,
-              border: 2,
-              linearGradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white.withOpacity(0.1),
-                  Colors.purple.withOpacity(0.1),
-                ],
-              ),
-              borderGradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white.withOpacity(0.1),
-                  Colors.purple.withOpacity(0.1),
-                ],
-              ),
-              blur: 2,
-
-              borderRadius: 20,
-              child: Stack(
-                children: [
-
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height*0.04,
-                      ),
-                      Text(
-                          "Congratulations you Won",
-                          style: TextStyle(
-                              color:Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 30,letterSpacing: 1
-                          )),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height*0.04,
-                      ),
-                      Text(productlist[SpinApi.random].name,
-                          style: TextStyle(
-                              color:Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,letterSpacing: 1
-                          )),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                      ),
-                      Center(
-                        child: OutlinedButton(
-                            onPressed: (){
-                              Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) => Users(),
-                                              ),
-                                            );
-                            },
-                            child: const Text("Ok",
-                              style:TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600
-                              ) ,)),
-                      )
-
-
-                    ],
-                  ),
-                ],
-              ),
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: GlassmorphicContainer(
+            height: 450,
+            width: 450,
+            alignment: Alignment.center,
+            border: 2,
+            linearGradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withOpacity(0.1),
+                Colors.purple.withOpacity(0.1),
+              ],
             ),
-          );
+            borderGradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withOpacity(0.1),
+                Colors.purple.withOpacity(0.1),
+              ],
+            ),
+            blur: 2,
+            borderRadius: 20,
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.04,
+                    ),
+                    const Text("Congratulations you Won",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 30,
+                            letterSpacing: 1)),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.04,
+                    ),
+                    Text(productlist[SpinApi.random].name,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                            letterSpacing: 1)),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                    Center(
+                      child: OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Users(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Ok",
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600),
+                          )),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
       },
     );
   }
