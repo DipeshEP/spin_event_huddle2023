@@ -9,7 +9,7 @@ import 'package:spin_event_2023/view/src/spin_wheel/users%20.dart';
 
 import '../../../model/modeluser.dart';
 
-class SpinWheel extends StatefulWidget {
+class SpinWheel extends StatefulWidget  {
   User user;
   SpinWheel({super.key, required this.user});
 
@@ -19,16 +19,19 @@ class SpinWheel extends StatefulWidget {
 
 class _SpinWheelState extends State<SpinWheel> {
   StreamController<int> selected = StreamController<int>();
-  @override
-  void dispose() {
-    selected.close();
-    super.dispose();
-  }
+   //late FlutterGifController controller1;
+  
 
   @override
   void initState() {
     selected = StreamController<int>();
     super.initState();
+  }
+  @override
+  void dispose() {
+    selected.close();
+  //  controller1.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,15 +59,16 @@ class _SpinWheelState extends State<SpinWheel> {
         2, nameuser[0].length, "*" * (nameuser[0].length - 2));
     print(emailcaracter);
     return Container(
+      width: double.infinity,
+      height: double.infinity,
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(
-                  "https://images.unsplash.com/photo-1604079628040-94301bb21b91?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-              fit: BoxFit.fill)),
+              image: AssetImage("assets/bg_img.jpg"), fit: BoxFit.fill)),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             toolbarHeight: 100,
+            backgroundColor: Colors.transparent,
             automaticallyImplyLeading: false,
             title: StreamBuilder(
                 stream: SpinApi.fetchOneUser(widget.user.usId),
@@ -132,7 +136,7 @@ class _SpinWheelState extends State<SpinWheel> {
               } else {
                 showDialog(
                   context: context,
-// user must tap button!
+
                   builder: (BuildContext context) {
                     return AlertDialog(
                       // <-- SEE HERE
@@ -141,7 +145,7 @@ class _SpinWheelState extends State<SpinWheel> {
                         'You Already Tried',
                         textAlign: TextAlign.center,
                       ),
-                      content: SingleChildScrollView(
+                      content: const SingleChildScrollView(
                         child: ListBody(
                           children: <Widget>[],
                         ),
@@ -165,7 +169,7 @@ class _SpinWheelState extends State<SpinWheel> {
                 );
               }
             },
-            child: Column(
+            child: Stack(
               children: [
                 Expanded(
                   child: Padding(
@@ -183,17 +187,23 @@ class _SpinWheelState extends State<SpinWheel> {
                       items: [
                         for (var it in productlist)
                           FortuneItem(
-                              child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(it.price),
-                              Text(it.name),
-                            ],
+                              child: Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: it.color,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(it.price),
+                                Text(it.name),
+                              ],
+                            ),
                           )),
                       ],
                     ),
                   ),
                 ),
+               
               ],
             ),
           )),
@@ -227,16 +237,17 @@ class _SpinWheelState extends State<SpinWheel> {
               child: OutlinedButton(
                 child: const Text('Ok'),
                 onPressed: () {
-                 Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => Users(),
-                                ),
-                              );
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Users(),
+                    ),
+                  );
                 },
               ),
             ),
           ],
         );
-     },
-);}
+      },
+    );
+  }
 }
