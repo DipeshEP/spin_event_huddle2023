@@ -10,10 +10,9 @@ import 'package:spin_event_2023/controller/spin_api.dart';
 import 'package:spin_event_2023/model/product_model.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/users%20.dart';
 
-import '../../../const/animation.dart';
 import '../../../model/modeluser.dart';
 
-class SpinWheel extends StatefulWidget  {
+class SpinWheel extends StatefulWidget {
   User user;
   SpinWheel({super.key, required this.user});
 
@@ -21,48 +20,26 @@ class SpinWheel extends StatefulWidget  {
   State<SpinWheel> createState() => _SpinWheelState();
 }
 
-class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
+class _SpinWheelState extends State<SpinWheel> {
   StreamController<int> selected = StreamController<int>();
-  late final AnimationController _defaultLottieController;
-   //late FlutterGifController controller1;
-  
+  //late FlutterGifController controller1;
 
   @override
   void initState() {
     selected = StreamController<int>();
-    _defaultLottieController = AnimationController(vsync: this)
-      ..duration = const Duration(seconds: 5);
     super.initState();
   }
+
   @override
   void dispose() {
     selected.close();
-    _defaultLottieController.dispose();
-  //  controller1.dispose();
+    //  controller1.dispose();
     super.dispose();
-  }
-
-  _buildLotties() {
-    return Positioned.fill(
-      child: Align(
-        alignment: Alignment.center,
-        child: IgnorePointer(
-          child: Lottie.asset(
-            defaultLottie,
-            controller: _defaultLottieController,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.fill,
-          ),
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     List<User> userList = [];
-
     int? index;
     String email = widget.user.email!;
     var nameuser = email.split("@");
@@ -139,7 +116,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
           ),
           body: GestureDetector(
             onTap: () {
-             // log(userList.first.isSpin.toString());
+              //  log(userList.first.isSpin.toString());
               if (userList.first.isSpin == false) {
                 setState(() {
                   selected.add(SpinApi.spinButtonClik());
@@ -147,7 +124,6 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
               } else {
                 showDialog(
                   context: context,
-
                   builder: (BuildContext context) {
                     return
                       AlertDialog(
@@ -225,21 +201,22 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
             },
             child: Stack(
               children: [
-                _buildLotties(),
+                Center(
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xff8dca87),
+                    radius: 540,
+                  ),
+                ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: FortuneWheel(
                       onAnimationStart: () {
-
                         SpinApi.updateCount();
                       },
                       onAnimationEnd: () {
-                        _defaultLottieController
-                            .forward()
-                            .then((value) => _defaultLottieController.reset())
-                            .then((value) => popup(context, productlist));
                         SpinApi.updateUserStatus(userList.first.usId);
+                        popup(context, productlist);
                       },
                       animateFirst: false,
                       selected: selected.stream,
@@ -247,31 +224,36 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                         for (var it in productlist)
                           FortuneItem(
                               child: Container(
-                                width: double.infinity,
-                                height: double.infinity,
-                                color: it.color,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Transform.rotate(
-                                        angle:  pi /0.4,
-                                        child: Text(it.price)),
-                                    Transform.rotate(
-                                        angle:  pi /0.4,
-                                        child: Text(it.name)),
-                                    Transform.rotate(
-                                        angle:  pi /0.4,
-                                        child: Image(image: it.image,height: 100,)),
-                                  ],
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: it.color,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                // SizedBox(width: 100,),
+                                // Transform.rotate(
+                                //   angle:  pi /0.4,
+                                //   child: Text(it.price)),
+                                SizedBox(
+                                  width: 100,
                                 ),
-                              )),
+                                Transform.rotate(
+                                    angle: pi / 0.4, child: Text(it.name)),
+
+                                Transform.rotate(
+                                    angle: pi / 0.4,
+                                    child: Image(
+                                      image: it.image,
+                                      height: 100,
+                                    )),
+                              ],
+                            ),
+                          )),
                       ],
                     ),
                   ),
                 ),
-                _buildLotties(),
-
-               
+                
               ],
             ),
           )),

@@ -174,7 +174,7 @@ class _UsersState extends State<Users> {
                                                     "You Already tried Once",
                                                 textAlign: TextAlign.center,
                                               ),
-                                              content: Image.asset("assets/emoji.jpg",height: 200,width: 200,),
+                                              content: Image.asset("assets/sad2.png",height: 200,width: 200,),
                                               actions: <Widget>[
                                                 Center(
                                                   child: OutlinedButton(
