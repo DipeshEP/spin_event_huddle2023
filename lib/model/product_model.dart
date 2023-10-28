@@ -13,154 +13,18 @@ class Products {
     required this.image,
   });
 }
-// Cerulean Blue: #007BA7
-// Emerald Green: #50C878
-// Sunset Orange: #FD5E53
-// Magenta Pink: #FF00FF
-// Golden Yellow: #FFD700
-// Purple Haze: #7D7C7C
-// final List<Products> productlist = [
-//   Products(
-//     name: 'Cherry',
-//     price: "100",
-//     color: const Color(0xFF007BA7),
-//   ),
 
-//   Products(
-//     name: 'Earbud',
-//     price: "600",
-//     color:  const Color(0xFFFD5E53),
-//   ),
-//    Products(
-//     name: 'Wocher 200',
-//     price: "200",
-//     color: const Color(0xFF50C878),
-//   ),
-//   Products(
-//     name: 'Watch',
-//     price: "300",
-//     color: const Color(0xFFED1F24),
-//   ),
-//   Products(
-//     name: 'Cherry',
-//     price: "400",
-//     color: const Color(0xFFFFD700),
-//   ),
-//   Products(
-//     name: 'Wocher 100',
-//     price: "500",
-//     color: const Color(0xFF7D7C7C),
-//   ),
-
-//   Products(
-//     name: 'Cherry',
-//     price: "700",
-//     color:const Color(0xFF007BA7),
-//   ),
-
-//   Products(
-//     name: 'Speaker',
-//     price: "900",
-//     color: const Color(0xFFFD5E53),
-//   ),
-//    Products(
-//     name: 'Wocher 200',
-//     price: "800",
-//     color: const Color(0xFF50C878),
-//   ),
-//   Products(
-//     name: 'Cherry',
-//     price: "1000",
-//     color:  const Color(0xFFED1F24),
-//   ),
-//   Products(
-//     name: 'Wocher 100',
-//     price: "1100",
-//     color:  const Color(0xFFFFD700),
-//   ),
-//   Products(
-//     name: 'Cap',
-//     price: "1200",
-//     color: const Color(0xFF7D7C7C),
-//   ),
-// ];
-
-//***************** */
-// final List<Products> productlist = [
-//   Products(
-//     name: 'Cherry',
-//     price: "100",
-//     color: const Color(0xFFED1F24),
-//   ),
-//   Products(
-//     name: 'Wocher 200',
-//     price: "200",
-//     color: const Color(0xFF2776BB),
-//   ),
-//   Products(
-//     name: 'Watch',
-//     price: "300",
-//     color: const Color(0xFF00E100),
-//   ),
-//   Products(
-//     name: 'Cherry',
-//     price: "400",
-//     color: const Color(0xFFE1E100),
-//   ),
-//   Products(
-//     name: 'Wocher 100',
-//     price: "500",
-//     color: const Color(0xFFED1F24),
-//   ),
-//   Products(
-//     name: 'Earbud',
-//     price: "600",
-//     color:  const Color(0xFF2776BB),
-//   ),
-//   Products(
-//     name: 'Cherry',
-//     price: "700",
-//     color: const Color(0xFF00E100),
-//   ),
-//   Products(
-//     name: 'Wocher 200',
-//     price: "800",
-//     color: const Color(0xFFE1E100),
-//   ),
-//   Products(
-//     name: 'Speaker',
-//     price: "900",
-//     color:const Color(0xFFED1F24),
-//   ),
-//   Products(
-//     name: 'Cherry',
-//     price: "1000",
-//     color:  const Color(0xFF2776BB),
-//   ),
-//   Products(
-//     name: 'Wocher 100',
-//     price: "1100",
-//     color: const Color(0xFF00E100),
-//   ),
-//   Products(
-//     name: 'Cap',
-//     price: "1200",
-//     color: const Color(0xFFE1E100),
-//   ),
-// ];
-
-//************** */
 final List<Products> productlist = [
   Products(
     name: 'Cherry',
     price: "100",
-    color: const Color(0xffE0115F),
+    color: const Color(0xff0067A5),
     image: const AssetImage("assets/cherry.png"),
   ),
   Products(
     name: 'Wocher 200',
     price: "200",
-    color: const Color(0xff0067A5),
+    color: const Color(0xffE0115F),
     image: const AssetImage("assets/5.png"),
   ),
   Products(
@@ -196,13 +60,13 @@ final List<Products> productlist = [
   Products(
     name: 'Wocher 200',
     price: "800",
-    color: const Color(0xffDC143C),
+    color: const Color(0xff4B0082),
     image: const AssetImage("assets/5.png"),
   ),
   Products(
     name: 'Speaker',
     price: "900",
-    color: const Color(0xff4B0082),
+    color: const Color(0xffDC143C),
     image: const AssetImage("assets/3.png"),
   ),
   Products(
