@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:lottie/lottie.dart';
 import 'package:spin_event_2023/controller/spin_api.dart';
 import 'package:spin_event_2023/model/product_model.dart';
@@ -61,20 +62,6 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     List<User> userList = [];
-    // final items = <String>[
-    // 'Cherry',
-    // 'Wocher 200',
-    // 'Watch',
-    // 'Cherry',
-    // 'Wocher 100',
-    // 'Earbud',
-    // 'Cherry',
-    // 'Wocher 200',
-    // 'Speaker',
-    // 'Cherry',
-    // 'Wocher 100',
-    // 'Cap',
-    // ];
 
     int? index;
     String email = widget.user.email!;
@@ -91,7 +78,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            toolbarHeight: 100,
+            toolbarHeight: 150,
             backgroundColor: Colors.transparent,
             automaticallyImplyLeading: false,
             title: StreamBuilder(
@@ -112,7 +99,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                             CircleAvatar(
                               backgroundImage:
                                   NetworkImage(userList.first.image!),
-                              radius: 40,
+                              radius: 50,
                             ),
                             const SizedBox(
                               width: 20,
@@ -124,18 +111,18 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                   userList.first.name!,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .titleMedium!
+                                      .titleLarge!
                                       .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.white,
                                       ),
                                 ),
                                 Text(
                                   emailcaracter,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .titleMedium!
+                                      .titleLarge!
                                       .copyWith(
-                                        color: Colors.black,
+                                        color: Colors.white,
                                       ),
                                 ),
                               ],
@@ -162,33 +149,76 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                   context: context,
 
                   builder: (BuildContext context) {
-                    return AlertDialog(
-                      // <-- SEE HERE
+                    return
+                      AlertDialog(
+                        backgroundColor: Colors.transparent,
+                        content:GlassmorphicContainer(
+                          height: 450,
+                          width: 450,
+                          alignment: Alignment.center,
+                          border: 2,
+                          linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.white.withOpacity(0.1),
+                              Colors.purple.withOpacity(0.1),
+                            ],
+                          ),
+                          borderGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.white.withOpacity(0.1),
+                              Colors.purple.withOpacity(0.1),
+                            ],
+                          ),
+                          blur: 2,
 
-                      title: const Text(
-                        'You Already Tried',
-                        textAlign: TextAlign.center,
-                      ),
-                      content: const SingleChildScrollView(
-                        child: ListBody(
-                          children: <Widget>[],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        Center(
-                          child: OutlinedButton(
-                            child: const Text('Ok'),
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => Users(),
-                                ),
-                              );
-                            },
+                          borderRadius: 20,
+                          child: Stack(
+                            children: [
+
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height*0.04,
+                                  ),
+                                  Text(
+                                      "You Already Tried",
+                                      style: TextStyle(
+                                          color:Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 30,letterSpacing: 1
+                                      )),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.05,
+                                  ),
+                                  Center(
+                                    child: OutlinedButton(
+                                        onPressed: (){
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => Users(),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text("Ok",
+                                          style:TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600
+                                          ) ,)),
+                                  )
+
+
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    );
+                      );
                   },
                 );
               }
@@ -248,43 +278,91 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
     );
   }
 
+
   Future<dynamic> popup(BuildContext context, List<Products> productlist) {
     return showDialog(
       context: context,
 // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          // <-- SEE HERE
+        return
+          AlertDialog(
+            backgroundColor: Colors.transparent,
+            content:GlassmorphicContainer(
+              height: 450,
+              width: 450,
+              alignment: Alignment.center,
+              border: 2,
+              linearGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white.withOpacity(0.1),
+                  Colors.purple.withOpacity(0.1),
+                ],
+              ),
+              borderGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white.withOpacity(0.1),
+                  Colors.purple.withOpacity(0.1),
+                ],
+              ),
+              blur: 2,
 
-          title: const Text(
-            'Congratulations you Won',
-            textAlign: TextAlign.center,
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  productlist[SpinApi.random].name,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            Center(
-              child: OutlinedButton(
-                child: const Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Users(),
-                    ),
-                  );
-                },
+              borderRadius: 20,
+              child: Stack(
+                children: [
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height*0.04,
+                      ),
+                      Text(
+                          "Congratulations you Won",
+                          style: TextStyle(
+                              color:Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 30,letterSpacing: 1
+                          )),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height*0.04,
+                      ),
+                      Text(productlist[SpinApi.random].name,
+                          style: TextStyle(
+                              color:Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,letterSpacing: 1
+                          )),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      Center(
+                        child: OutlinedButton(
+                            onPressed: (){
+                              Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) => Users(),
+                                              ),
+                                            );
+                            },
+                            child: const Text("Ok",
+                              style:TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600
+                              ) ,)),
+                      )
+
+
+                    ],
+                  ),
+                ],
               ),
             ),
-          ],
-        );
+          );
       },
     );
   }
