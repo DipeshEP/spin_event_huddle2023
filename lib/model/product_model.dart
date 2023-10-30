@@ -22,10 +22,10 @@ final List<Products> productlist = [
     image: const AssetImage("assets/cherry.png"),
   ),
   Products(
-    name: 'Wocher 200',
+    name: 'Voucher',
     price: "200",
     color: const Color(0xffE0115F),
-    image: const AssetImage("assets/5.png"),
+    image: const AssetImage("assets/coupen.png"),
   ),
   Products(
     name: 'Watch',
@@ -40,10 +40,10 @@ final List<Products> productlist = [
     image: const AssetImage("assets/cherry.png"),
   ),
   Products(
-    name: 'Wocher 100',
+    name: 'Voucher',
     price: "500",
     color: const Color(0xffFFD700),
-    image: const AssetImage("assets/4.png"),
+    image: const AssetImage("assets/coupen.png"),
   ),
   Products(
     name: 'Earbud',
@@ -58,10 +58,10 @@ final List<Products> productlist = [
     image: const AssetImage("assets/cherry.png"),
   ),
   Products(
-    name: 'Wocher 200',
+    name: 'Voucher',
     price: "800",
     color: const Color(0xff4B0082),
-    image: const AssetImage("assets/5.png"),
+    image: const AssetImage("assets/coupen.png"),
   ),
   Products(
     name: 'Speaker',
@@ -76,10 +76,10 @@ final List<Products> productlist = [
     image: const AssetImage("assets/cherry.png"),
   ),
   Products(
-    name: 'Wocher 100',
+    name: 'Voucher',
     price: "1100",
     color: const Color(0xffFF6F61),
-    image: const AssetImage("assets/4.png"),
+    image: const AssetImage("assets/coupen.png"),
   ),
   Products(
     name: 'Repeat',

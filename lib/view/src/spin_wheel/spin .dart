@@ -157,7 +157,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                           end: Alignment.bottomRight,
                           colors: [
                             Colors.white.withOpacity(0.1),
-                            Colors.purple.withOpacity(0.1),
+                            Colors.white.withOpacity(0.1),
                           ],
                         ),
                         borderGradient: LinearGradient(
@@ -165,7 +165,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                           end: Alignment.bottomRight,
                           colors: [
                             Colors.white.withOpacity(0.1),
-                            Colors.purple.withOpacity(0.1),
+                            Colors.white.withOpacity(0.1),
                           ],
                         ),
                         blur: 2,
@@ -176,7 +176,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
-                                    "${userList.first.name},You Already Traied",
+                                    "${userList.first.name},You Already Tried",
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
@@ -247,22 +247,24 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                // SizedBox(width: 100,),
-                                // Transform.rotate(
-                                //   angle:  pi /0.4,
-                                //   child: Text(it.price)),
                                 const SizedBox(
                                   width: 100,
                                 ),
-                                Transform.rotate(
-                                    angle: pi / 0.4, child: Text(it.name)),
-
+                                // Transform.rotate(
+                                //     angle: pi / 0.4, child: Text(it.name)),
+                                it.name!="Voucher"?
                                 Transform.rotate(
                                     angle: pi / 0.4,
                                     child: Image(
                                       image: it.image,
-                                      height: 100,
-                                    )),
+                                      height: 120,
+                                    )):Transform.rotate(
+                                      angle: pi/0.2,
+                                      child: Image(
+                                        image: it.image,
+                                        height: 80,
+                                      ),
+                                    ),
                               ],
                             ),
                           )),
@@ -270,7 +272,8 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                _buildLotties()
+                _buildLotties(),
+                const Center(child: Image(image: AssetImage("assets/center_button.png"),height: 160,))
               ],
             ),
           )),
