@@ -1,14 +1,21 @@
-import 'dart:async';
+
 import 'dart:math';
+import 'dart:developer' as d;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
+import 'package:spin_event_2023/model/DB_product_model.dart';
 import '../const/firebase_const.dart';
 
 class SpinApi {
+  List dbProducts;
+  SpinApi({
+    required this.dbProducts
+  });
  
     static late int random;
     List<DocumentSnapshot> products = [];
+
 
  static spinButtonClik(){
       
@@ -16,14 +23,37 @@ class SpinApi {
 
      random = 0;
      //Fortune.randomInt(0, 11);
+
+  spinButtonClik(){
+    print( "api page list count==========${dbProducts.length}");
+int produtindex = Fortune.randomInt(0, dbProducts.length);
+print(dbProducts[produtindex].productname);
+if( dbProducts[produtindex].productname=='bluetoothSpeaker'){
+ d. log('bluetoothSpeaker');
+  
+  random=8;
+}else if(dbProducts[produtindex].productname=='EarBud'){
+   d. log('EarBud');
+  
+     random=5;
+}else if(dbProducts[produtindex].productname=='preVoucher'){
+   d. log('prevoucher');
+          random=4;
+}else if(dbProducts[produtindex].productname=='voucher'){
+   d. log('voucher');
+          random=1;
+}else if(dbProducts[produtindex].productname=='watch'){
+   d. log('watch');
+          random=2;
+}
      
     // random=1;
-    if(random==1){
-         decrementProductCount('cap');
-    }
+    // if(random==1){
+    //      decrementProductCount('cap');
+    // }
     decrementCount();
     
-    return random;
+ 
     
   }
   static Future<void>decrementProductCount(product)async{
@@ -54,12 +84,12 @@ class SpinApi {
       print("error decrementing $e");
  }
  }
- static Future<QuerySnapshot<Map<String, dynamic>>> fetchProducts() {
+ static  Stream<QuerySnapshot<Map<String, dynamic>>> fetchProducts() {
     return firestore
         .collection("spinEvent")
         .doc("product")
         .collection("day").where('isClaim',isEqualTo: false)
-        .get();
+        .snapshots();
         
   }
 

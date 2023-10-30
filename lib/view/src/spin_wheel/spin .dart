@@ -8,6 +8,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:lottie/lottie.dart';
 import 'package:spin_event_2023/const/animation.dart';
 import 'package:spin_event_2023/controller/spin_api.dart';
+import 'package:spin_event_2023/model/DB_product_model.dart';
 import 'package:spin_event_2023/model/product_model.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/users%20.dart';
 
@@ -15,7 +16,8 @@ import '../../../model/modeluser.dart';
 
 class SpinWheel extends StatefulWidget {
   User user;
-  SpinWheel({super.key, required this.user});
+ List dbProducts;
+  SpinWheel({super.key, required this.user,required this.dbProducts});
 
   @override
   State<SpinWheel> createState() => _SpinWheelState();
@@ -30,6 +32,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
     selected = StreamController<int>();
     _defaultLottieController = AnimationController(vsync: this)
       ..duration = const Duration(seconds: 5);
+      SpinApi(dbProducts: widget.dbProducts).spinButtonClik();
     super.initState();
   }
 
@@ -139,7 +142,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
               //  log(userList.first.isSpin.toString());
               if (userList.first.isSpin == false) {
                 setState(() {
-                  selected.add(SpinApi.spinButtonClik());
+                  selected.add(SpinApi.random);
                 });
               } else {
                 showDialog(

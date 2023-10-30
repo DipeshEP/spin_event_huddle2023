@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:spin_event_2023/controller/spin_api.dart';
+import 'package:spin_event_2023/model/DB_product_model.dart';
 import 'package:spin_event_2023/model/modeluser.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/spin%20.dart';
-
-
 
 // ignore: must_be_immutable
 class Profile extends StatelessWidget {
   User user;
   Profile({super.key, required this.user});
+  List<DBProducts> dbproducts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,6 @@ class Profile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-
                   height: height * 0.25,
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -52,42 +52,80 @@ class Profile extends StatelessWidget {
                         Text(
                           user.name!,
                           style:
-                          Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: Colors.white70,
-                          ),
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: Colors.white70,
+                                  ),
                         ),
                         Text(
                           emailcaracter!,
                           style:
-                          Theme.of(context).textTheme.labelLarge!.copyWith(
-                            color: Colors.white70,
-                          ),
+                              Theme.of(context).textTheme.labelLarge!.copyWith(
+                                    color: Colors.white70,
+                                  ),
                         ),
                       ],
                     ),
-                    ElevatedButton(
-                        onPressed: () async {
-
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SpinWheel(
-                              user: user,
-                            ),
-                          ));
-                          
-
-                        },
-
-
-
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green),
-                      child: Text(
-                        "confirm",
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ),
+                    StreamBuilder(
+                        stream: SpinApi.fetchProducts(),
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                            case ConnectionState.none:
+                              return Center(child: CircularProgressIndicator());
+                            case ConnectionState.active:
+                            case ConnectionState.done:
+                              dbproducts = snapshot.data!.docs
+                                  .map((e) => DBProducts.fromJson(e.data()))
+                                  .toList();
+                                  print("list count===================${dbproducts.length}");
+                              if (dbproducts.isNotEmpty) {
+                                return ElevatedButton(
+                                  onPressed: () async {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => SpinWheel(
+                                        user: user,
+                                        dbProducts: dbproducts ,
+                                      ),
+                                    ));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green),
+                                  child: Text(
+                                    "confirm",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                          color: Colors.white70,
+                                        ),
+                                  ),
+                                );
+                              }else{
+                                return Text("error occured while fetching");
+                              }
+                          }
+                          // return ElevatedButton(
+                          //   onPressed: () async {
+                          //     Navigator.of(context).push(MaterialPageRoute(
+                          //       builder: (context) => SpinWheel(
+                          //         user: user,
+                          //       ),
+                          //     ));
+                          //   },
+                          //   style: ElevatedButton.styleFrom(
+                          //       backgroundColor: Colors.green),
+                          //   child: Text(
+                          //     "confirm",
+                          //     style: Theme.of(context)
+                          //         .textTheme
+                          //         .labelLarge!
+                          //         .copyWith(
+                          //           color: Colors.white70,
+                          //         ),
+                          //   ),
+                          // );
+                        }),
                   ],
                 ),
               ],
