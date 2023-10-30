@@ -8,10 +8,10 @@ class DBProducts {
     required this.prize,
     required this.productname,
   });
-  late String count;
-  late String is_claim;
+  late int count;
+  late bool is_claim;
   late String image;
-  late String prize;
+  late int prize;
   late String productname;
 
   DBProducts.fromJson(Map<String, dynamic> json) {
