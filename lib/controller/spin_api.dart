@@ -14,8 +14,9 @@ class SpinApi {
       
     
 
-    // random = Fortune.randomInt(0, 11);
-    random=1;
+     random = Fortune.randomInt(0, 11);
+     
+    // random=1;
     if(random==1){
          decrementProductCount('cap');
     }
