@@ -232,10 +232,16 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                         SpinApi.updateCount();
                       },
                       onAnimationEnd: () {
-                        _defaultLottieController
+                        if (SpinApi.random==0 ||SpinApi.random==3||SpinApi.random==6 ||SpinApi.random==9 ) {
+                          badluckPopup(context);
+                        }else{
+                           _defaultLottieController
                             .forward()
                             .then((value) => _defaultLottieController.reset())
                             .then((value) => popup(context, productlist));
+                        }
+                      
+                            
                         SpinApi.updateUserStatus(userList.first.usId);
                       },
                       animateFirst: false,
@@ -300,7 +306,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
               end: Alignment.bottomRight,
               colors: [
                 Colors.white.withOpacity(0.1),
-                Colors.purple.withOpacity(0.1),
+                Colors.white.withOpacity(0.1),
               ],
             ),
             borderGradient: LinearGradient(
@@ -308,7 +314,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
               end: Alignment.bottomRight,
               colors: [
                 Colors.white.withOpacity(0.1),
-                Colors.purple.withOpacity(0.1),
+                Colors.white.withOpacity(0.1),
               ],
             ),
             blur: 2,
@@ -364,5 +370,75 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
         );
       },
     );
+  }
+    badluckPopup(BuildContext context,) {
+    return 
+    showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      content: GlassmorphicContainer(
+                        height: 450,
+                        width: 450,
+                        alignment: Alignment.center,
+                        border: 2,
+                        linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white.withOpacity(0.1),
+                            Colors.white.withOpacity(0.1),
+                          ],
+                        ),
+                        borderGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.white.withOpacity(0.1),
+                            Colors.white.withOpacity(0.1),
+                          ],
+                        ),
+                        blur: 2,
+                        borderRadius: 20,
+                        child: Stack(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                    " BETTER LUCK NEXT TIME",
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18,
+                                        letterSpacing: 1)),
+                                Image.asset(
+                                  "assets/sad2.png",
+                                  height: 300,
+                                ),
+                                OutlinedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => Users(),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text(
+                                      "Ok",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    ))
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
   }
 }

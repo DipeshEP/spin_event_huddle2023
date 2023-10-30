@@ -16,6 +16,14 @@ class SpinApi {
     static late int random;
     List<DocumentSnapshot> products = [];
 
+
+ static spinButtonClik(){
+      
+    
+
+     random = 0;
+     //Fortune.randomInt(0, 11);
+
   spinButtonClik(){
     print( "api page list count==========${dbProducts.length}");
 int produtindex = Fortune.randomInt(0, dbProducts.length);
