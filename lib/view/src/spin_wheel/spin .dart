@@ -16,8 +16,9 @@ import '../../../model/modeluser.dart';
 
 class SpinWheel extends StatefulWidget {
   User user;
- List dbProducts;
-  SpinWheel({super.key, required this.user,required this.dbProducts});
+  List dbProducts;
+
+  SpinWheel({super.key, required this.user, required this.dbProducts});
 
   @override
   State<SpinWheel> createState() => _SpinWheelState();
@@ -26,13 +27,14 @@ class SpinWheel extends StatefulWidget {
 class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   StreamController<int> selected = StreamController<int>();
   late final AnimationController _defaultLottieController;
+  int? gamecount;
 
   @override
   void initState() {
     selected = StreamController<int>();
     _defaultLottieController = AnimationController(vsync: this)
       ..duration = const Duration(seconds: 5);
-      SpinApi(dbProducts: widget.dbProducts).spinButtonClik();
+    SpinApi(dbProducts: widget.dbProducts).spinButtonClik();
     super.initState();
   }
 
@@ -178,8 +180,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Text(
-                                    "${userList.first.name},You Already Tried",
+                                Text("${userList.first.name},You Already Tried",
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w700,
@@ -229,19 +230,21 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                     child: FortuneWheel(
                       duration: const Duration(seconds: 20),
                       onAnimationStart: () {
-                        SpinApi.updateCount();
+                        SpinApi.decrementCount();
                       },
                       onAnimationEnd: () {
-                        if (SpinApi.random==0 ||SpinApi.random==3||SpinApi.random==6 ||SpinApi.random==9 ) {
+                        if (SpinApi.random == 0 ||
+                            SpinApi.random == 3 ||
+                            SpinApi.random == 6 ||
+                            SpinApi.random == 9) {
                           badluckPopup(context);
-                        }else{
-                           _defaultLottieController
-                            .forward()
-                            .then((value) => _defaultLottieController.reset())
-                            .then((value) => popup(context, productlist));
+                        } else {
+                          _defaultLottieController
+                              .forward()
+                              .then((value) => _defaultLottieController.reset())
+                              .then((value) => popup(context, productlist));
                         }
-                      
-                            
+
                         SpinApi.updateUserStatus(userList.first.usId);
                       },
                       animateFirst: false,
@@ -261,19 +264,20 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                 ),
                                 // Transform.rotate(
                                 //     angle: pi / 0.4, child: Text(it.name)),
-                                it.name!="Voucher"?
-                                Transform.rotate(
-                                    angle: pi / 0.4,
-                                    child: Image(
-                                      image: it.image,
-                                      height: 120,
-                                    )):Transform.rotate(
-                                      angle: pi/0.2,
-                                      child: Image(
-                                        image: it.image,
-                                        height: 80,
+                                it.name != "Voucher"
+                                    ? Transform.rotate(
+                                        angle: pi / 0.4,
+                                        child: Image(
+                                          image: it.image,
+                                          height: 120,
+                                        ))
+                                    : Transform.rotate(
+                                        angle: pi / 0.2,
+                                        child: Image(
+                                          image: it.image,
+                                          height: 80,
+                                        ),
                                       ),
-                                    ),
                               ],
                             ),
                           )),
@@ -282,7 +286,11 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                   ),
                 ),
                 _buildLotties(),
-                const Center(child: Image(image: AssetImage("assets/center_button.png"),height: 160,))
+                const Center(
+                    child: Image(
+                  image: AssetImage("assets/center_button.png"),
+                  height: 160,
+                ))
               ],
             ),
           )),
@@ -322,19 +330,19 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
             child: Stack(
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.04,
+                    const Text(
+                      "Congratulations you Won",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 30,
+                          letterSpacing: 1),
                     ),
-                    const Text("Congratulations you Won",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30,
-                            letterSpacing: 1)),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.04,
+                    Image(
+                      image: productlist[SpinApi.random].image,
+                      height: 180,
                     ),
                     Text(productlist[SpinApi.random].name,
                         style: const TextStyle(
@@ -342,11 +350,14 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                             fontWeight: FontWeight.w700,
                             fontSize: 20,
                             letterSpacing: 1)),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                    ),
                     Center(
                       child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: Colors.green,
+                            width: 2,
+                          )
+                        ),
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -357,7 +368,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                           child: const Text(
                             "Ok",
                             style: TextStyle(
-                                color: Colors.grey,
+                                color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600),
                           )),
@@ -371,74 +382,75 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
       },
     );
   }
-    badluckPopup(BuildContext context,) {
-    return 
-    showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      backgroundColor: Colors.transparent,
-                      content: GlassmorphicContainer(
-                        height: 450,
-                        width: 450,
-                        alignment: Alignment.center,
-                        border: 2,
-                        linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.1),
-                          ],
-                        ),
-                        borderGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.1),
-                          ],
-                        ),
-                        blur: 2,
-                        borderRadius: 20,
-                        child: Stack(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                    " BETTER LUCK NEXT TIME",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 18,
-                                        letterSpacing: 1)),
-                                Image.asset(
-                                  "assets/sad2.png",
-                                  height: 300,
-                                ),
-                                OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => Users(),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text(
-                                      "Ok",
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ))
-                              ],
+
+  badluckPopup(
+    BuildContext context,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: GlassmorphicContainer(
+            height: 450,
+            width: 450,
+            alignment: Alignment.center,
+            border: 2,
+            linearGradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withOpacity(0.1),
+                Colors.white.withOpacity(0.1),
+              ],
+            ),
+            borderGradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withOpacity(0.1),
+                Colors.white.withOpacity(0.1),
+              ],
+            ),
+            blur: 2,
+            borderRadius: 20,
+            child: Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(" BETTER LUCK NEXT TIME",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            letterSpacing: 1)),
+                    Image.asset(
+                      "assets/sad2.png",
+                      height: 300,
+                    ),
+                    OutlinedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => Users(),
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
+                          );
+                        },
+                        child: const Text(
+                          "Ok",
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ))
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
