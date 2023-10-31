@@ -31,6 +31,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   late final AnimationController _defaultLottieController;
  final player=AssetsAudioPlayer();
   int? gamecount;
+  bool _isSpin = false;
 
   @override
   void initState() {
@@ -144,85 +145,88 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
           ),
           body: GestureDetector(
             onTap: () {
-              player.open(Audio.file("assets/wheel_fortune_1.mp3"));
-              //  log(userList.first.isSpin.toString());
-              if (userList.first.isSpin == false) {
-                setState(() {
-                  selected.add(SpinApi.random);
-                });
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      backgroundColor: Colors.transparent,
-                      content: GlassmorphicContainer(
-                        height: 450,
-                        width: 450,
-                        alignment: Alignment.center,
-                        border: 2,
-                        linearGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.1),
-                          ],
-                        ),
-                        borderGradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.1),
-                          ],
-                        ),
-                        blur: 2,
-                        borderRadius: 20,
-                        child: Stack(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text("${userList.first.name},You Already Tried",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 18,
-                                        letterSpacing: 1)),
-                                Image.asset(
-                                  "assets/sad2.png",
-                                  height: 300,
-                                ),
-                                OutlinedButton(
-                                    style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(
-                                      color: Colors.green,
-                                      width: 2,
-                                    )),
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => Users(),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text(
-                                      "Ok",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ))
+                if(_isSpin== false){
+                  if (userList.first.isSpin == false) {
+                    player.open(Audio.file("assets/spinsound,bgm.wav"));
+                    Future.delayed(Duration(seconds: 1));
+                    setState(() {
+                      selected.add(SpinApi.random);
+                    });
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.transparent,
+                          content: GlassmorphicContainer(
+                            height: 450,
+                            width: 450,
+                            alignment: Alignment.center,
+                            border: 2,
+                            linearGradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.white.withOpacity(0.1),
+                                Colors.white.withOpacity(0.1),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
+                            borderGradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.white.withOpacity(0.1),
+                                Colors.white.withOpacity(0.1),
+                              ],
+                            ),
+                            blur: 2,
+                            borderRadius: 20,
+                            child: Stack(
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text("${userList.first.name},You Already Tried",
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 18,
+                                            letterSpacing: 1)),
+                                    Image.asset(
+                                      "assets/sad2.png",
+                                      height: 300,
+                                    ),
+                                    OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                            side: const BorderSide(
+                                              color: Colors.green,
+                                              width: 2,
+                                            )),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => Users(),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text(
+                                          "Ok",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600),
+                                        ))
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-              }
+                  }
+                }
+              //  log(userList.first.isSpin.toString()
             },
             child: Padding(
               padding: const EdgeInsets.all(24.0),
@@ -243,7 +247,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                        indicators: [],
                         duration: const Duration(seconds: 20),
                         onAnimationStart: () {
-                          
+                          _isSpin = true;
                           SpinApi.decrementCount();
                         },
                         onAnimationEnd: () {
@@ -252,11 +256,13 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                               SpinApi.random == 6 ||
                               SpinApi.random == 9) {
                             badluckPopup(context);
-                          } else {
+                          } else  {
                             _defaultLottieController
                                 .forward()
                                 .then((value) => _defaultLottieController.reset())
                                 .then((value) => popup(context, productlist));
+                            player.open(Audio.file("assets/congragulation,bgm.mpeg"));
+
                           }
             
                           SpinApi.updateUserStatus(userList.first.usId);
@@ -274,7 +280,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const SizedBox(
-                                    width: 100,
+                                    width: 200,
                                   ),
                                   // Transform.rotate(
                                   //     angle: pi / 0.4, child: Text(it.name)),
@@ -283,13 +289,13 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                           angle: pi / 0.4,
                                           child: Image(
                                             image: it.image,
-                                            height: 120,
+                                            height: 150,
                                           ))
                                       : Transform.rotate(
                                           angle: pi / 0.2,
                                           child: Image(
                                             image: it.image,
-                                            height: 80,
+                                            height: 60,
                                           ),
                                         ),
                                 ],
@@ -353,6 +359,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+
                     const Text(
                       "Congratulations you Won",
                       style: TextStyle(
