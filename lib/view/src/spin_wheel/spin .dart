@@ -29,7 +29,7 @@ class SpinWheel extends StatefulWidget {
 class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   StreamController<int> selected = StreamController<int>();
   late final AnimationController _defaultLottieController;
- final player=AssetsAudioPlayer();
+  final player = AssetsAudioPlayer();
   int? gamecount;
 
   @override
@@ -235,15 +235,13 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                       radius: 540,
                     ),
                   ),
-                   
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: FortuneWheel(
-                       indicators: [],
+                        indicators: [],
                         duration: const Duration(seconds: 20),
                         onAnimationStart: () {
-                          
                           SpinApi.decrementCount();
                         },
                         onAnimationEnd: () {
@@ -255,10 +253,11 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                           } else {
                             _defaultLottieController
                                 .forward()
-                                .then((value) => _defaultLottieController.reset())
+                                .then(
+                                    (value) => _defaultLottieController.reset())
                                 .then((value) => popup(context, productlist));
                           }
-            
+
                           SpinApi.updateUserStatus(userList.first.usId);
                         },
                         animateFirst: false,
@@ -271,7 +270,8 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                               height: double.infinity,
                               color: it.color,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const SizedBox(
                                     width: 100,
@@ -300,11 +300,15 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                     ),
                   ),
                   Padding(
-                     padding: const EdgeInsets.only(top: 280),
-                     child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Image.asset("assets/arrow.png",height: 100,color: Colors.red,)),
-                   ),
+                    padding: const EdgeInsets.only(top: 280),
+                    child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(
+                          "assets/arrow.png",
+                          height: 100,
+                          color: Colors.red,
+                        )),
+                  ),
                   _buildLotties(),
                   const Center(
                       child: Image(
@@ -371,28 +375,48 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                             fontWeight: FontWeight.w700,
                             fontSize: 20,
                             letterSpacing: 1)),
-                            
                     Center(
-                      child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                            color: Colors.green,
-                            width: 2,
-                          )),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => Users(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            "Ok",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          )),
+                      child: productlist[SpinApi.random].name == 'Repeat'
+                          ? OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                color: Colors.green,
+                                width: 2,
+                              )),
+                              onPressed: () {
+                                setState(() {
+                                  selected.add(SpinApi.random);
+                                });
+                                 Navigator.pop(context);
+                              },
+                              child: const Text(
+                                "Repeat",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600),
+                              ))
+                          : 
+                          OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                color: Colors.green,
+                                width: 2,
+                              )),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => Users(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                "Ok",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600),
+                              )),
                     )
                   ],
                 ),
