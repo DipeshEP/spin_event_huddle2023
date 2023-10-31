@@ -9,6 +9,7 @@ class Profile extends StatelessWidget {
   User user;
   Profile({super.key, required this.user});
   List<DBProducts> dbproducts = [];
+  List cherryList=[0,3,6,9,11];
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +103,28 @@ class Profile extends StatelessWidget {
                                   ),
                                 );
                               }else{
-                                return Text("error occured while fetching");
+                                return ElevatedButton(
+                                  onPressed: () async {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => SpinWheel(
+                                        user: user,
+                                        dbProducts: dbproducts ,
+                                      ),
+                                    ));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green),
+                                  child: Text(
+                                    "confirm",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                          color: Colors.white70,
+                                        ),
+                                  ),
+                                );
                               }
                           }
                           // return ElevatedButton(

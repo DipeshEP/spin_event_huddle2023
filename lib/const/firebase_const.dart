@@ -14,4 +14,7 @@ const logic="logic";
 const day1 = "day1";
 const day2 = "day2";
 const day3 = "day3";
-
+const chatsCollection = "chats";
+const messagesCollection = "messages";
+const my_userscollection = 'my_users';
+const userCollection = "users";
