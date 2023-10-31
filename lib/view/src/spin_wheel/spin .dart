@@ -31,7 +31,6 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   late final AnimationController _defaultLottieController;
   final player = AssetsAudioPlayer();
   int? gamecount;
-
   @override
   void initState() {
     selected = StreamController<int>();
@@ -157,8 +156,8 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                     return AlertDialog(
                       backgroundColor: Colors.transparent,
                       content: GlassmorphicContainer(
-                        height: 450,
-                        width: 450,
+                        height: 550,
+                        width: 500,
                         alignment: Alignment.center,
                         border: 2,
                         linearGradient: LinearGradient(
@@ -196,10 +195,9 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                 ),
                                 OutlinedButton(
                                     style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(
-                                      color: Colors.green,
-                                      width: 2,
-                                    )),
+                                      backgroundColor: Colors.grey.shade100,
+                                      elevation: 10,
+                                    ),
                                     onPressed: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -210,7 +208,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                     child: const Text(
                                       "Ok",
                                       style: TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600),
                                     ))
@@ -251,11 +249,14 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                               SpinApi.random == 9) {
                             badluckPopup(context);
                           } else {
+                            popup(context, productlist);
+                            player.open(Audio.file("assets/congragulation,bgm.mpeg"));
                             _defaultLottieController
                                 .forward()
                                 .then(
-                                    (value) => _defaultLottieController.reset())
-                                .then((value) => popup(context, productlist));
+                                    (value) => _defaultLottieController.reset());
+
+
                           }
 
                           SpinApi.updateUserStatus(userList.first.usId);
@@ -330,8 +331,8 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
         return AlertDialog(
           backgroundColor: Colors.transparent,
           content: GlassmorphicContainer(
-            height: 450,
-            width: 450,
+            height: 550,
+            width: 500,
             alignment: Alignment.center,
             border: 2,
             linearGradient: LinearGradient(
@@ -378,31 +379,30 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                     Center(
                       child: productlist[SpinApi.random].name == 'Repeat'
                           ? OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(
-                                color: Colors.green,
-                                width: 2,
-                              )),
+                          style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade100,
+                            elevation: 10,
+                          ),
                               onPressed: () {
                                 setState(() {
-                                  selected.add(SpinApi.random);
+
+                                   selected.add(0);
                                 });
                                  Navigator.pop(context);
                               },
                               child: const Text(
                                 "Repeat",
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600),
                               ))
                           : 
                           OutlinedButton(
                               style: OutlinedButton.styleFrom(
-                                  side: const BorderSide(
-                                color: Colors.green,
-                                width: 2,
-                              )),
+                                backgroundColor: Colors.grey.shade100,
+                                elevation: 10,
+                              ),
                               onPressed: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -413,7 +413,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                               child: const Text(
                                 "Ok",
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600),
                               )),
@@ -437,8 +437,8 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
         return AlertDialog(
           backgroundColor: Colors.transparent,
           content: GlassmorphicContainer(
-            height: 450,
-            width: 450,
+            height: 550,
+            width: 500,
             alignment: Alignment.center,
             border: 2,
             linearGradient: LinearGradient(
@@ -476,10 +476,9 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                     ),
                     OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                            side: const BorderSide(
-                          color: Colors.green,
-                          width: 2,
-                        )),
+                          backgroundColor: Colors.grey.shade100,
+                          elevation: 10,
+                        ),
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -490,7 +489,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                         child: const Text(
                           "Ok",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 20,
                               fontWeight: FontWeight.w600),
                         ))

@@ -164,8 +164,8 @@ class _UsersState extends State<Users> {
                                                 backgroundColor:
                                                     Colors.transparent,
                                                 content: GlassmorphicContainer(
-                                                  height: 450,
-                                                  width: 450,
+                                                  height: 550,
+                                                  width: 500,
                                                   alignment: Alignment.center,
                                                   border: 2,
                                                   linearGradient:
@@ -175,7 +175,7 @@ class _UsersState extends State<Users> {
                                                     colors: [
                                                       Colors.white
                                                           .withOpacity(0.1),
-                                                      Colors.purple
+                                                      Colors.white
                                                           .withOpacity(0.1),
                                                     ],
                                                   ),
@@ -186,7 +186,7 @@ class _UsersState extends State<Users> {
                                                     colors: [
                                                       Colors.white
                                                           .withOpacity(0.1),
-                                                      Colors.purple
+                                                      Colors.white
                                                           .withOpacity(0.1),
                                                     ],
                                                   ),
@@ -215,6 +215,10 @@ class _UsersState extends State<Users> {
                                                             height: 300,
                                                           ),
                                                           OutlinedButton(
+                                                            style: OutlinedButton.styleFrom(
+                                                              backgroundColor: Colors.grey.shade100,
+                                                              elevation: 10,
+                                                            ),
                                                               onPressed: () {
                                                                 Navigator.of(
                                                                         context)
@@ -230,7 +234,7 @@ class _UsersState extends State<Users> {
                                                                 "Ok",
                                                                 style: TextStyle(
                                                                     color: Colors
-                                                                        .grey,
+                                                                        .black,
                                                                     fontSize:
                                                                         20,
                                                                     fontWeight:
