@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -10,6 +11,7 @@ import 'package:spin_event_2023/const/animation.dart';
 import 'package:spin_event_2023/controller/spin_api.dart';
 import 'package:spin_event_2023/model/DB_product_model.dart';
 import 'package:spin_event_2023/model/product_model.dart';
+
 import 'package:spin_event_2023/view/src/spin_wheel/users%20.dart';
 
 import '../../../model/modeluser.dart';
@@ -27,6 +29,7 @@ class SpinWheel extends StatefulWidget {
 class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   StreamController<int> selected = StreamController<int>();
   late final AnimationController _defaultLottieController;
+ final player=AssetsAudioPlayer();
   int? gamecount;
 
   @override
@@ -141,6 +144,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
           ),
           body: GestureDetector(
             onTap: () {
+              player.open(Audio.file("assets/wheel_fortune_1.mp3"));
               //  log(userList.first.isSpin.toString());
               if (userList.first.isSpin == false) {
                 setState(() {
@@ -191,6 +195,11 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                   height: 300,
                                 ),
                                 OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                        side: const BorderSide(
+                                      color: Colors.green,
+                                      width: 2,
+                                    )),
                                     onPressed: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
@@ -201,7 +210,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                     child: const Text(
                                       "Ok",
                                       style: TextStyle(
-                                          color: Colors.grey,
+                                          color: Colors.white,
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600),
                                     ))
@@ -215,83 +224,95 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                 );
               }
             },
-            child: Stack(
-              children: [
-                _buildLotties(),
-                const Center(
-                  child: CircleAvatar(
-                    backgroundColor: Color(0xff8dca87),
-                    radius: 540,
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: FortuneWheel(
-                      duration: const Duration(seconds: 20),
-                      onAnimationStart: () {
-                        SpinApi.decrementCount();
-                      },
-                      onAnimationEnd: () {
-                        if (SpinApi.random == 0 ||
-                            SpinApi.random == 3 ||
-                            SpinApi.random == 6 ||
-                            SpinApi.random == 9) {
-                          badluckPopup(context);
-                        } else {
-                          _defaultLottieController
-                              .forward()
-                              .then((value) => _defaultLottieController.reset())
-                              .then((value) => popup(context, productlist));
-                        }
-
-                        SpinApi.updateUserStatus(userList.first.usId);
-                      },
-                      animateFirst: false,
-                      selected: selected.stream,
-                      items: [
-                        for (var it in productlist)
-                          FortuneItem(
-                              child: Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            color: it.color,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const SizedBox(
-                                  width: 100,
-                                ),
-                                // Transform.rotate(
-                                //     angle: pi / 0.4, child: Text(it.name)),
-                                it.name != "Voucher"
-                                    ? Transform.rotate(
-                                        angle: pi / 0.4,
-                                        child: Image(
-                                          image: it.image,
-                                          height: 120,
-                                        ))
-                                    : Transform.rotate(
-                                        angle: pi / 0.2,
-                                        child: Image(
-                                          image: it.image,
-                                          height: 80,
-                                        ),
-                                      ),
-                              ],
-                            ),
-                          )),
-                      ],
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Stack(
+                children: [
+                  _buildLotties(),
+                  const Center(
+                    child: CircleAvatar(
+                      backgroundColor: Color(0xff8dca87),
+                      radius: 540,
                     ),
                   ),
-                ),
-                _buildLotties(),
-                const Center(
-                    child: Image(
-                  image: AssetImage("assets/center_button.png"),
-                  height: 160,
-                ))
-              ],
+                   
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: FortuneWheel(
+                       indicators: [],
+                        duration: const Duration(seconds: 20),
+                        onAnimationStart: () {
+                          
+                          SpinApi.decrementCount();
+                        },
+                        onAnimationEnd: () {
+                          if (SpinApi.random == 0 ||
+                              SpinApi.random == 3 ||
+                              SpinApi.random == 6 ||
+                              SpinApi.random == 9) {
+                            badluckPopup(context);
+                          } else {
+                            _defaultLottieController
+                                .forward()
+                                .then((value) => _defaultLottieController.reset())
+                                .then((value) => popup(context, productlist));
+                          }
+            
+                          SpinApi.updateUserStatus(userList.first.usId);
+                        },
+                        animateFirst: false,
+                        selected: selected.stream,
+                        items: [
+                          for (var it in productlist)
+                            FortuneItem(
+                                child: Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              color: it.color,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  const SizedBox(
+                                    width: 100,
+                                  ),
+                                  // Transform.rotate(
+                                  //     angle: pi / 0.4, child: Text(it.name)),
+                                  it.name != "Voucher"
+                                      ? Transform.rotate(
+                                          angle: pi / 0.4,
+                                          child: Image(
+                                            image: it.image,
+                                            height: 120,
+                                          ))
+                                      : Transform.rotate(
+                                          angle: pi / 0.2,
+                                          child: Image(
+                                            image: it.image,
+                                            height: 80,
+                                          ),
+                                        ),
+                                ],
+                              ),
+                            )),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                     padding: const EdgeInsets.only(top: 280),
+                     child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Image.asset("assets/arrow.png",height: 100,color: Colors.red,)),
+                   ),
+                  _buildLotties(),
+                  const Center(
+                      child: Image(
+                    image: AssetImage("assets/center_button.png"),
+                    height: 160,
+                  ))
+                ],
+              ),
             ),
           )),
     );
@@ -350,14 +371,14 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                             fontWeight: FontWeight.w700,
                             fontSize: 20,
                             letterSpacing: 1)),
+                            
                     Center(
                       child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(
+                          style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
                             color: Colors.green,
                             width: 2,
-                          )
-                        ),
+                          )),
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -419,8 +440,8 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(" BETTER LUCK NEXT TIME",
-                        style: const TextStyle(
+                    const Text(" BETTER LUCK NEXT TIME",
+                        style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                             fontSize: 18,
@@ -430,6 +451,11 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                       height: 300,
                     ),
                     OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            side: const BorderSide(
+                          color: Colors.green,
+                          width: 2,
+                        )),
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -440,7 +466,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                         child: const Text(
                           "Ok",
                           style: TextStyle(
-                              color: Colors.grey,
+                              color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.w600),
                         ))
