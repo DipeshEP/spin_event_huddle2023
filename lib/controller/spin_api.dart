@@ -17,7 +17,7 @@ class SpinApi {
 
   static late int random;
   List<DocumentSnapshot> products = [];
-  List<int> cherrylist = [0,3,6,9,11];
+ static List<int> cherrylist = [0,3,11,6,9,11];
   List<int> voucherlist = [1, 7];
   List<int> prevoucherlist = [4, 10];
 
@@ -76,6 +76,8 @@ class SpinApi {
       print("this is the cherry random======$random");
     }
   }
+
+
 
   static Future<void> decrementProductCount(product) async {
     final docRef = firestore
