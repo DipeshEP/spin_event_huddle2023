@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:math';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
@@ -11,6 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:spin_event_2023/const/animation.dart';
 import 'package:spin_event_2023/controller/spin_api.dart';
 import 'package:spin_event_2023/model/DB_product_model.dart';
+import 'package:spin_event_2023/model/message_model.dart';
 import 'package:spin_event_2023/model/product_model.dart';
 
 import 'package:spin_event_2023/view/src/spin_wheel/users%20.dart';
@@ -273,16 +273,27 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                              audio_effect("assets/sad_audio.mpeg");
                             SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
                           } else {
-                           
+                            if( productlist[SpinApi.random].name == 'Voucher'){
                               SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
-                            
-                            popup(context, productlist);
-                            // player.open(Audio.file("assets/congragulation,bgm.mpeg"));
-                            audio_effect("assets/congragulation,bgm.mpeg");
-                            _defaultLottieController
-                                .forward()
-                                .then(
-                                    (value) => _defaultLottieController.reset());
+                              print(       widget.user.usId                   );
+                              SpinApi.sendMessage(widget.user.usId!,"voucher link one ", "text",widget.user.pushToken!,
+                                  );
+
+                              popup(context, productlist);
+                              player.open(Audio.file("assets/congragulation,bgm.mpeg"));
+                              _defaultLottieController
+                                  .forward()
+                                  .then(
+                                      (value) => _defaultLottieController.reset());
+                            }else{
+                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
+                              popup(context, productlist);
+                              player.open(Audio.file("assets/congragulation,bgm.mpeg"));
+                              _defaultLottieController
+                                  .forward()
+                                  .then(
+                                      (value) => _defaultLottieController.reset());
+                            }
 
 
                           }
