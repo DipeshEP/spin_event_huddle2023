@@ -5,7 +5,7 @@ import 'package:spin_event_2023/view/src/spin_wheel/profile.dart';
 
 import '../../../controller/spin_api.dart';
 import '../../../model/modeluser.dart';
-
+import 'package:spin_event_2023/model/message_model.dart';
 class Users extends StatefulWidget {
   Users({super.key});
 
@@ -253,12 +253,14 @@ class _UsersState extends State<Users> {
                                         child: const Text(""),
                                       )
                                     : ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                Profile(user: filtered[index]),
-                                          ));
+                                        onPressed: () async{
+                                         await SpinApi.sendMessage(userList.first.usId!,"voucher link one ","text",userList.first.pushToken!,
+                                          );
+                                          // Navigator.of(context)
+                                          //     .push(MaterialPageRoute(
+                                          //   builder: (context) =>
+                                          //       Profile(user: filtered[index]),
+                                          // ));
                                         },
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.green,
