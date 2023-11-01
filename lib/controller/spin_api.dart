@@ -16,6 +16,7 @@ class SpinApi {
   SpinApi({required this.dbProducts});
 
   static late int random;
+  static String reachOutID = 'clmg807fu002zyfnu66f2ggqh';
   List<DocumentSnapshot> products = [];
  static List<int> cherrylist = [0,3,11,6,9,11];
   List<int> voucherlist = [1, 7];
@@ -194,45 +195,45 @@ class SpinApi {
       reachOutID.hashCode <= Userid.hashCode
           ? '${reachOutID}_$Userid'
           : '${Userid}_${reachOutID}';
-  static String reachOutID = 'clm4ii9ol00n9zqqshfukbj0w';
+
   
- static Future<void> sendMessage(String UserID , String msg, Type type ,String pushToken) async {
+ static Future<void> sendMessage(String UserID , String msg, String type ,String pushToken) async {
     //message sending time (also used as id)
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
-    //message to send
-    final Message message = Message(
-        toId: UserID,
-        msg: msg,
-        read: '',
-        type: type,
-        fromId: reachOutID,
-        sent: time);
+
     // print(message);
     final ref = firestore.collection(
         '${chatsCollection}/${getConversationID(UserID)}/${messagesCollection}/'); //${getConversationID(UserID)}
-    await ref.doc(time).set(message.toJson()).then((value) =>
-        sendPushNotification(pushToken, type == Type.text ? msg : 'image'));
-    // then((value) =>
+    await ref.doc(time).set({
+      "toId": UserID,
+      "msg": msg,
+      "read": '',
+      "type": type,
+      "fromId": reachOutID,
+      "sent": time
+    }).then((value) =>
+        sendPushNotification(pushToken,  type == "text" ? msg : 'image'));
+
     //   sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
     firestore
         .collection(userCollection)
         .doc(reachOutID)
         .collection(my_userscollection)
         .doc(UserID)
-        .update({"last_active": time}).then(
-      (value) {
+        .update({"last_active": time,"id":UserID}).then(
+          (value) {
         firestore
             .collection(userCollection)
             .doc(UserID)
             .collection(my_userscollection)
             .doc(reachOutID)
-            .update({"last_active": time});
+            .update({"last_active": time,"id":reachOutID});
       },
     );
-    firestore.collection(userCollection).doc(UserID).update({
-      "is_chatNotification": true,
-    });
+    // firestore.collection(userCollection).doc(UserID).update({
+    //   "is_chatNotification": true,
+    // });
   }
    // for sending push notification
   static Future<void> sendPushNotification(String pushToken , String msg) async {
@@ -252,9 +253,7 @@ class SpinApi {
       var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
-            HttpHeaders.authorizationHeader:
-                'key=AAAAJzS2t10:APA91bGpIdIlrDQHT9txMC2wv55TApAOFqv3leBY27blZ8BrjB4FG58NaB-_1PZB1g-GpTyE7kMSbnL8g9rx2knMGEEaP8WvZKeqhFgcfP3_HkpszJex1KCj9v_Y4NXDHVBXXM6x_4e6'
-            //'Key=AAAATAJr6AA:APA91bHQgQCqvtZiPDWl1Bn_Iab-vo-jaJe8X1z_6QajorFNxS4SlRd6igvtJmQsjug2QPsynBmUhzP2A4B1FhVI3nwTwPB4tXE7_6U12Z9UQqNZ4-d8vC7XY_9mZtJbtw8JauSgU6NQ'
+            HttpHeaders.authorizationHeader:'key=AAAAJzS2t10:APA91bGpIdIlrDQHT9txMC2wv55TApAOFqv3leBY27blZ8BrjB4FG58NaB-_1PZB1g-GpTyE7kMSbnL8g9rx2knMGEEaP8WvZKeqhFgcfP3_HkpszJex1KCj9v_Y4NXDHVBXXM6x_4e6'
           },
           body: jsonEncode(body));
      
