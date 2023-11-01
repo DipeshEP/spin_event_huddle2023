@@ -36,6 +36,7 @@ class SpinApi {
 
         random = 8;
         decrementProductCount('bluetoothSpeaker');
+
       } else if (dbProducts[produtindex].productname == 'EarBud') {
         d.log('EarBud');
 
@@ -81,6 +82,7 @@ class SpinApi {
 
 
   static Future<void> decrementProductCount(product) async {
+   
     final docRef = firestore
         .collection(spinEventCollection)
         .doc(productDoc)
@@ -189,6 +191,16 @@ class SpinApi {
         .doc(uid)
         .update({
       "is_spin": true,
+    });
+  }
+   static updateWinedProduct(uid,product) async {
+    await firestore
+        .collection("spinEvent")
+        .doc('EventUser')
+        .collection("users")
+        .doc(uid)
+        .update({
+      "wined_product":product,
     });
   }
   static String getConversationID(String Userid) =>

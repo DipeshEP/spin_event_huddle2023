@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -30,7 +31,10 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   StreamController<int> selected = StreamController<int>();
   late final AnimationController _defaultLottieController;
   final player = AssetsAudioPlayer();
+  AudioPlayer badluckplayer = AudioPlayer();
+  AudioPlayer congrassplyer = AudioPlayer();
   int? gamecount;
+  
   @override
   void initState() {
     selected = StreamController<int>();
@@ -46,6 +50,24 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
     _defaultLottieController.dispose();
     super.dispose();
   }
+   void audio_effect(String url) async {
+    int result = await badluckplayer.play(url, isLocal: true);
+    if (result == 1) {
+      // success
+    } else {
+      // error handling
+    }
+  }
+  Future<void> congrss_stopMusic() async {
+    int result = await badluckplayer.stop();
+    if (result == 1) {
+      // success
+    } else {
+      // error handling
+    }
+  }
+
+
 
   _buildLotties() {
     return Positioned.fill(
@@ -143,7 +165,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
           ),
           body: GestureDetector(
             onTap: () {
-              player.open(Audio.file("assets/wheel_fortune_1.mp3"));
+              player.open(Audio.file("assets/spinsound_effect.mp.wav"));
               //  log(userList.first.isSpin.toString());
               if (userList.first.isSpin == false) {
                 setState(() {
@@ -248,8 +270,11 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                               SpinApi.random == 6 ||
                               SpinApi.random == 9) {
                             badluckPopup(context);
+                             audio_effect("assets/sad_audio.mpeg");
+                            SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
                           } else {
                             if( productlist[SpinApi.random].name == 'Voucher'){
+                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
                               print(       widget.user.usId                   );
                               SpinApi.sendMessage(widget.user.usId!,"voucher link one ", "text",widget.user.pushToken!,
                                   );
@@ -261,6 +286,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                   .then(
                                       (value) => _defaultLottieController.reset());
                             }else{
+                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
                               popup(context, productlist);
                               player.open(Audio.file("assets/congragulation,bgm.mpeg"));
                               _defaultLottieController
@@ -268,7 +294,6 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                   .then(
                                       (value) => _defaultLottieController.reset());
                             }
-
 
 
                           }
@@ -401,7 +426,10 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                 setState(() {
 
                                    selected.add(0);
+
                                 });
+                                player.open(Audio.file("assets/spinsound_effect.mp.wav"));
+                                congrss_stopMusic();
                                  Navigator.pop(context);
                               },
                               child: const Text(
@@ -418,6 +446,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                 elevation: 10,
                               ),
                               onPressed: () {
+                                congrss_stopMusic();
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => Users(),
@@ -494,6 +523,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                           elevation: 10,
                         ),
                         onPressed: () {
+                          congrss_stopMusic();
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => Users(),
