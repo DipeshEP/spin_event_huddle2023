@@ -32,9 +32,13 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
   late final AnimationController _defaultLottieController;
   final player = AssetsAudioPlayer();
   AudioPlayer badluckplayer = AudioPlayer();
-  AudioPlayer congrassplyer = AudioPlayer();
+  //AudioPlayer congrassplyer = AudioPlayer();
   int? gamecount;
-  
+
+
+  int lastSentIndex = 0;
+  int lastsendIndex2=0;
+
   @override
   void initState() {
     selected = StreamController<int>();
@@ -58,7 +62,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
       // error handling
     }
   }
-  Future<void> congrss_stopMusic() async {
+  Future<void> audio_stopMusic() async {
     int result = await badluckplayer.stop();
     if (result == 1) {
       // success
@@ -262,6 +266,9 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                         indicators: [],
                         duration: const Duration(seconds: 20),
                         onAnimationStart: () {
+                          SpinApi.voucherLink100();
+                          SpinApi.voucherLink200();
+
                           SpinApi.decrementCount();
                         },
                         onAnimationEnd: () {
@@ -273,27 +280,74 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                              audio_effect("assets/sad_audio.mpeg");
                             SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
                           } else {
-                            if( productlist[SpinApi.random].name == 'Voucher'){
+                            if( SpinApi.random == 0 || SpinApi.random==7 || SpinApi.random ==10){
+
+                              print(               widget.user.usId             );
+                              print(               widget.user.name             );
                               SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
-                              print(       widget.user.usId                   );
-                              SpinApi.sendMessage(widget.user.usId!,"voucher link one ", "text",widget.user.pushToken!,
-                                  );
+                              // SpinApi.sendMessage(widget.user.usId!,
+                              //     '${SpinApi.voucherListOne[0]['link']}',
+                              //     "text",
+                              //     widget.user.pushToken!);
+                              if (lastSentIndex < SpinApi.voucherListOne.length) {
+                                // Check if there are more messages in the list
+                                String messageToSend = SpinApi.voucherListOne[lastSentIndex]['link'];
+                                SpinApi.sendMessage(widget.user.usId!, messageToSend, "text", widget.user.pushToken!);
+
+                                // Update the last sent index
+                               SpinApi.voucherListOne.removeAt(0);
+                              } else {
+                                // No more messages to send
+                                print("All messages have been sent.");
+                              }
+
 
                               popup(context, productlist);
-                              player.open(Audio.file("assets/congragulation,bgm.mpeg"));
-                              _defaultLottieController
-                                  .forward()
-                                  .then(
-                                      (value) => _defaultLottieController.reset());
-                            }else{
-                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
-                              popup(context, productlist);
-                              player.open(Audio.file("assets/congragulation,bgm.mpeg"));
+                              player.open(Audio.file("assets/congratulation_audio.mpeg"));
                               _defaultLottieController
                                   .forward()
                                   .then(
                                       (value) => _defaultLottieController.reset());
                             }
+                            else if(SpinApi.random == 4){
+
+                              print(               widget.user.usId             );
+                              print(               widget.user.name             );
+                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
+                              // SpinApi.sendMessage(widget.user.usId!,
+                              //     '${SpinApi.voucherListTwo[0]['link']}',
+                              //     "text",
+                              //     widget.user.pushToken!);
+                              if (lastSentIndex < SpinApi.voucherListTwo.length) {
+                                // Check if there are more messages in the list
+                                String messageToSend = SpinApi.voucherListTwo[lastSentIndex]['link'];
+                                SpinApi.sendMessage(widget.user.usId!, messageToSend, "text", widget.user.pushToken!);
+
+                                // Update the last sent index
+                                SpinApi.voucherListTwo.removeAt(0);
+                              } else {
+                                // No more messages to send
+                                print("All messages have been sent.");
+                              }
+                              popup(context, productlist);
+                              player.open(Audio.file("assets/congratulation_audio.mpeg"));
+                              _defaultLottieController
+                                  .forward()
+                                  .then(
+                                      (value) => _defaultLottieController.reset());
+                            }else{
+
+                              print(               widget.user.usId             );
+                              print(               widget.user.name             );
+                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
+                              popup(context, productlist);
+                              player.open(Audio.file("assets/congratulation_audio.mpeg"));
+                              _defaultLottieController
+                                  .forward()
+                                  .then(
+                                      (value) => _defaultLottieController.reset());
+
+                          }
 
 
                           }
@@ -314,24 +368,64 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const SizedBox(
-                                    width: 100,
+                                    width: 160,
                                   ),
-                                  // Transform.rotate(
-                                  //     angle: pi / 0.4, child: Text(it.name)),
-                                  it.name != "Voucher"
+
+
+                                  it.name == "Voucher"
                                       ? Transform.rotate(
-                                          angle: pi / 0.4,
-                                          child: Image(
-                                            image: it.image,
-                                            height: 120,
-                                          ))
-                                      : Transform.rotate(
                                           angle: pi / 0.2,
                                           child: Image(
                                             image: it.image,
-                                            height: 80,
+                                            height: 90,
+                                          ))
+                                      :  it.name == "Earbud" ?
+
+                                  Transform.rotate(
+                                    angle: pi / 0.4,
+                                    child: Image(
+                                      image: it.image,
+                                      height: 160,
+                                    ),
+                                  )
+                                      :  it.name == "Watch" ?
+                                  Transform.rotate(
+                                          angle: pi / 0.4,
+                                          child: Image(
+                                            image: it.image,
+                                            height: 160,
                                           ),
-                                        ),
+                                        )  : it.name== 'Speaker'?
+                                  Transform.rotate(
+                                    angle: pi / 0.4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 50),
+                                      child: Image(
+                                        image: it.image,
+                                        height: 120,
+                                      ),
+                                    ),
+                                  ):it.name== 'Repeat'?
+                                  Transform.rotate(
+                                    angle: pi / 0.4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 18),
+                                      child: Image(
+                                        image: it.image,
+                                        height: 120,
+                                      ),
+                                    ),
+                                  ):
+                                  Transform.rotate(
+                                    angle: pi / 0.4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 40),
+                                      child: Image(
+                                        image: it.image,
+                                        height: 120,
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             )),
@@ -340,12 +434,12 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 280),
+                    padding: const EdgeInsets.only(top: 170),
                     child: Align(
                         alignment: Alignment.topCenter,
                         child: Image.asset(
                           "assets/arrow.png",
-                          height: 100,
+                          height: 120,
                           color: Colors.red,
                         )),
                   ),
@@ -397,8 +491,9 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Text(
-                      "Congratulations you Won",
+
+                     Text(
+                      "Congratulations !",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
@@ -409,12 +504,54 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                       image: productlist[SpinApi.random].image,
                       height: 180,
                     ),
-                    Text(productlist[SpinApi.random].name,
+                    if(productlist[SpinApi.random].name == "Voucher" && productlist[SpinApi.random].price == "100")
+                    Text("You won Amazon Gift Voucher\n Worth ₹100",
+                        textAlign: TextAlign.center,
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                             fontSize: 20,
                             letterSpacing: 1)),
+                    if(productlist[SpinApi.random].name == "Voucher" && productlist[SpinApi.random].price == "200")
+                      Text("You Won Amazon Gift Voucher \n Worth ₹200",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              letterSpacing: 1)),
+                    if(productlist[SpinApi.random].name == "Speaker")
+                      Text("You Won ZEBRONICS Bluetooth Speaker\n Worth ₹1000",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              letterSpacing: 1)),
+                    if(productlist[SpinApi.random].name == "Earbud")
+                      Text("You won Boult Audio Y1\n Worth ₹ 5499",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              letterSpacing: 1)),
+                    if(productlist[SpinApi.random].name == "Watch")
+                      Text("You Won Fastrack Revoltt X Smartwatch \n Worth ₹3995",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              letterSpacing: 1)),
+                    if(productlist[SpinApi.random].name == "Repeat")
+                      Text("It Seems Like Your Luck Is So Close.\n Spin Again",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              letterSpacing: 1)),
                     Center(
                       child: productlist[SpinApi.random].name == 'Repeat'
                           ? OutlinedButton(
@@ -425,11 +562,11 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                               onPressed: () {
                                 setState(() {
 
-                                   selected.add(0);
+                                   selected.add(SpinApi.repeat());
 
                                 });
                                 player.open(Audio.file("assets/spinsound_effect.mp.wav"));
-                                congrss_stopMusic();
+                                audio_stopMusic();
                                  Navigator.pop(context);
                               },
                               child: const Text(
@@ -446,12 +583,15 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                 elevation: 10,
                               ),
                               onPressed: () {
-                                congrss_stopMusic();
+
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => Users(),
+
                                   ),
                                 );
+                               // audio_stopMusic();
+                                player.stop();
                               },
                               child: const Text(
                                 "Ok",
@@ -507,11 +647,11 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const Text(" BETTER LUCK NEXT TIME",
+                     Text(" Better Luck Next Time.",
                         style: TextStyle(
                             color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 24,
                             letterSpacing: 1)),
                     Image.asset(
                       "assets/sad2.png",
@@ -523,7 +663,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                           elevation: 10,
                         ),
                         onPressed: () {
-                          congrss_stopMusic();
+                          audio_stopMusic();
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => Users(),

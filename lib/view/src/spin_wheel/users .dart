@@ -254,13 +254,14 @@ class _UsersState extends State<Users> {
                                       )
                                     : ElevatedButton(
                                         onPressed: () async{
-                                         await SpinApi.sendMessage(userList.first.usId!,"voucher link one ","text",userList.first.pushToken!,
-                                          );
-                                          // Navigator.of(context)
-                                          //     .push(MaterialPageRoute(
-                                          //   builder: (context) =>
-                                          //       Profile(user: filtered[index]),
-                                          // ));
+                                          // SpinApi.sendPushNotification( filtered[index].pushToken.toString(), "Hai");
+
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                Profile(user: filtered[index]),
+                                          ));
+
                                         },
                                         style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.green,
