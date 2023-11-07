@@ -14,43 +14,37 @@ class SpinApi {
   List dbProducts;
 
   SpinApi({required this.dbProducts});
-
   static late int random;
+  static List voucherListOne =[];
+  static List voucherListTwo =[];
   static String reachOutID = 'clmg807fu002zyfnu66f2ggqh';
   List<DocumentSnapshot> products = [];
  static List<int> cherrylist = [0,3,11,6,9,11];
-  List<int> voucherlist = [1, 7];
-  List<int> prevoucherlist = [4, 10];
-
+  List<int> voucherlist = [4,4];
+  List<int> prevoucherlist = [1,7, 10];
   Future spinButtonClik() async {
     if(dbProducts.isNotEmpty){
          print("api page list count==========${dbProducts.length}");
     int produtindex = Fortune.randomInt(0, dbProducts.length);
     print(dbProducts[produtindex].productname);
     int gamecount = await getGameCount();
-
     print("game count===========$gamecount");
     if (gamecount == 0 ) {
       if (dbProducts[produtindex].productname == 'bluetoothSpeaker') {
         d.log('bluetoothSpeaker');
-
         random = 8;
         decrementProductCount('bluetoothSpeaker');
-
       } else if (dbProducts[produtindex].productname == 'EarBud') {
         d.log('EarBud');
-
         random = 5;
         decrementProductCount('earbud');
       } else if (dbProducts[produtindex].productname == 'preVoucher') {
         d.log('prevoucher');
         int randomindex = Random().nextInt(prevoucherlist.length);
-
         random = prevoucherlist[randomindex];
         decrementProductCount('preVoucher');
       } else if (dbProducts[produtindex].productname == 'voucher') {
         d.log('voucher');
-
         int randomindex = Random().nextInt(voucherlist.length);
         random = voucherlist[randomindex];
         decrementProductCount('voucher');
@@ -79,7 +73,10 @@ class SpinApi {
     }
   }
 
-
+static repeat(){
+    random =0;
+    return random;
+}
 
   static Future<void> decrementProductCount(product) async {
    
@@ -101,7 +98,6 @@ class SpinApi {
           print('Count decremented successfully.');
         } else if (newcount == 0) {
           await docRef.update({'isClaim': true, 'count': 0});
-
           print('isClaimed successfully.');
         }
       } else {
@@ -183,6 +179,31 @@ class SpinApi {
         .update({"count": FieldValue.increment(-1)});
   }
 
+static  voucherLink100() async {
+
+  await firestore.collection("spinEvent")
+        .doc('product').collection("links100").doc('day1').
+       collection("links").get().then((value){
+         value.docs.forEach((element) {voucherListOne.add(element);});
+    });
+  }
+
+  static  voucherLink200() async {
+
+    await firestore.collection("spinEvent")
+        .doc('product').collection("links200").doc('day1').
+    collection("links").get().then((value){
+      value.docs.forEach((element) {voucherListTwo.add(element);});
+    });
+  }
+  // static setLink() async {
+  //   await firestore
+  //       .collection("spinEvent")
+  //       .doc('product').collection("links200").doc('day3').collection("links")
+  //       .doc("link3")
+  //       .set({"link":"hhhh"});
+  // }
+
   static updateUserStatus(uid) async {
     await firestore
         .collection("spinEvent")
@@ -204,16 +225,31 @@ class SpinApi {
     });
   }
   static String getConversationID(String Userid) =>
-      reachOutID.hashCode <= Userid.hashCode
-          ? '${reachOutID}_$Userid'
-          : '${Userid}_${reachOutID}';
+      Userid.hashCode <= reachOutID.hashCode
+          ? '${reachOutID}_${Userid}'
+          : '${Userid}_$reachOutID';
 
   
  static Future<void> sendMessage(String UserID , String msg, String type ,String pushToken) async {
-    //message sending time (also used as id)
+   print("===========${UserID}");
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
 
+   // firestore
+   //     .collection(userCollection)
+   //     .doc(reachOutID)
+   //     .collection(my_userscollection)
+   //     .doc(UserID)
+   //     .update({"last_active": time,"id":UserID}).then(
+   //       (value) {
+   //     firestore
+   //         .collection(userCollection)
+   //         .doc(UserID)
+   //         .collection(my_userscollection)
+   //         .doc(reachOutID)
+   //         .update({"last_active": time,"id":reachOutID});
+   //   },
+   // );
     // print(message);
     final ref = firestore.collection(
         '${chatsCollection}/${getConversationID(UserID)}/${messagesCollection}/'); //${getConversationID(UserID)}
@@ -224,28 +260,27 @@ class SpinApi {
       "type": type,
       "fromId": reachOutID,
       "sent": time
-    }).then((value) =>
+    })
+        .then((value) =>
         sendPushNotification(pushToken,  type == "text" ? msg : 'image'));
+   firestore
+       .collection(userCollection)
+       .doc(reachOutID)
+       .collection(my_userscollection)
+       .doc(UserID)
+       .set({"last_active": time,"id":UserID}).then(
+         (value) {
+       firestore
+           .collection(userCollection)
+           .doc(UserID)
+           .collection(my_userscollection)
+           .doc(reachOutID)
+           .set({"last_active": time,"id":reachOutID});
+     },
+   );
 
-    //   sendPushNotification(chatUser, type == Type.text ? msg : 'image'));
-    firestore
-        .collection(userCollection)
-        .doc(reachOutID)
-        .collection(my_userscollection)
-        .doc(UserID)
-        .update({"last_active": time,"id":UserID}).then(
-          (value) {
-        firestore
-            .collection(userCollection)
-            .doc(UserID)
-            .collection(my_userscollection)
-            .doc(reachOutID)
-            .update({"last_active": time,"id":reachOutID});
-      },
-    );
-    // firestore.collection(userCollection).doc(UserID).update({
-    //   "is_chatNotification": true,
-    // });
+
+
   }
    // for sending push notification
   static Future<void> sendPushNotification(String pushToken , String msg) async {

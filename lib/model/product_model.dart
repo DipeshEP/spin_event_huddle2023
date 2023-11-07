@@ -23,9 +23,9 @@ final List<Products> productlist = [
   ),
   Products(
     name: 'Voucher',
-    price: "200",
+    price: "100",
     color: const Color(0xffE0115F),
-    image: const AssetImage("assets/coupen.png"),
+    image: const AssetImage("assets/voucherOne.png"),
   ),
   Products(
     name: 'Watch',
@@ -41,15 +41,15 @@ final List<Products> productlist = [
   ),
   Products(
     name: 'Voucher',
-    price: "500",
+    price: "200",
     color: const Color(0xffFFD700),
-    image: const AssetImage("assets/coupen.png"),
+    image: const AssetImage("assets/voucherTwo.png"),
   ),
   Products(
     name: 'Earbud',
     price: "600",
     color: const Color(0xff40E0D0),
-    image: const AssetImage("assets/1.png"),
+    image:  AssetImage("assets/earpodOne.png",),
   ),
   Products(
     name: 'Cherry',
@@ -59,9 +59,9 @@ final List<Products> productlist = [
   ),
   Products(
     name: 'Voucher',
-    price: "800",
+    price: "100",
     color: const Color(0xff4B0082),
-    image: const AssetImage("assets/coupen.png"),
+    image: const AssetImage("assets/voucherOne.png"),
   ),
   Products(
     name: 'Speaker',
@@ -77,14 +77,14 @@ final List<Products> productlist = [
   ),
   Products(
     name: 'Voucher',
-    price: "1100",
+    price: "100",
     color: const Color(0xffFF6F61),
-    image: const AssetImage("assets/coupen.png"),
+    image: const AssetImage("assets/voucherOne.png"),
   ),
   Products(
     name: 'Repeat',
     price: "1200",
     color: const Color(0xffC0C0C0),
-    image: const AssetImage("assets/repat.png"),
+    image: const AssetImage("assets/repeatOne.png"),
   ),
 ];
