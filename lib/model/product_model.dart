@@ -84,7 +84,7 @@ final List<Products> productlist = [
   Products(
     name: 'Repeat',
     price: "1200",
-    color: const Color(0xffC0C0C0),
-    image: const AssetImage("assets/repeatOne.png"),
+    color:  Colors.black,
+    image: const AssetImage("assets/Logo28-WB - Copy.png"),
   ),
 ];

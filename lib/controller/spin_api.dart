@@ -73,10 +73,11 @@ class SpinApi {
     }
   }
 
-static repeat(){
-    random =0;
-    return random;
-}
+// static repeat(){
+//    int gamecount = await getGameCount();
+//     random =0;
+//     return random;
+// }
 
   static Future<void> decrementProductCount(product) async {
    
