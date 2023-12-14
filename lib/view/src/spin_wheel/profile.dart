@@ -66,6 +66,23 @@ class Profile extends StatelessWidget {
                         ),
                       ],
                     ),
+              SizedBox(width: 50,),
+              ElevatedButton(
+                onPressed: () async {
+                 Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green),
+                child: Text(
+                  "Back",
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge!
+                      .copyWith(
+                    color: Colors.white70,
+                  ),
+                ),
+              ),
                     StreamBuilder(
                         stream: SpinApi.fetchProducts(),
                         builder: (context, snapshot) {
@@ -80,7 +97,8 @@ class Profile extends StatelessWidget {
                                   .toList();
                                   print("list count===================${dbproducts.length}");
                               if (dbproducts.isNotEmpty) {
-                                return ElevatedButton(
+                                return 
+                                  ElevatedButton(
                                   onPressed: () async {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
