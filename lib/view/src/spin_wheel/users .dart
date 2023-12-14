@@ -206,7 +206,7 @@ class _UsersState extends State<Users> {
                                                             children: [
                                                               Text(
                                                                   "${filtered[index].name},You Already Traied",
-                                                                  style: TextStyle(
+                                                                  style: const TextStyle(
                                                                       color: Colors
                                                                           .white,
                                                                       fontWeight:
