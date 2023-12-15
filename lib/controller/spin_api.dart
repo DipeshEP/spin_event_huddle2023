@@ -122,7 +122,7 @@ class SpinApi {
     return firestore
         .collection("spinEvent")
         .doc("EventUser")
-        .collection("users")
+        .collection(usersCollection)
         .snapshots();
   }
 
@@ -168,7 +168,7 @@ class SpinApi {
     return firestore
         .collection("spinEvent")
         .doc("EventUser")
-        .collection("users")
+        .collection(usersCollection)
         .where('id', isEqualTo: uid)
         .snapshots();
   }
@@ -209,7 +209,7 @@ static  voucherLink100() async {
     await firestore
         .collection("spinEvent")
         .doc('EventUser')
-        .collection("users")
+        .collection(usersCollection)
         .doc(uid)
         .update({
       "is_spin": true,
@@ -219,7 +219,7 @@ static  voucherLink100() async {
     await firestore
         .collection("spinEvent")
         .doc('EventUser')
-        .collection("users")
+        .collection(usersCollection)
         .doc(uid)
         .update({
       "wined_product":product,

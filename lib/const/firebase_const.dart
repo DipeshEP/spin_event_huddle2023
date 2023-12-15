@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
  FirebaseAuth  auth = FirebaseAuth.instance;
 
 
-const usersCollection ="users";
+const usersCollection ="UrbanEventUsers";
 const spinEventCollection ="spinEvent";
 const productDoc ="product";
 const logic="logic";

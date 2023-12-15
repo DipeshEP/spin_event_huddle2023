@@ -65,12 +65,12 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
     await audioPlayer.play();
 
   }
-  playSpinSoundBadPop() async {
-    String spinSoundPath = 'assets/_better Luck Next Ti (1).mp3';
-    await audioPlayer1.setAsset(spinSoundPath);
-    await audioPlayer1.play();
-
-  }
+  // playSpinSoundBadPop() async {
+  //   String spinSoundPath = 'assets/_better Luck Next Ti (1).mp3';
+  //   await audioPlayer1.setAsset(spinSoundPath);
+  //   await audioPlayer1.play();
+  //
+  // }
   playSpinSoundCong() async {
     String spinSoundPath = 'assets/congratulation_audio.mpeg';
     await audioPlayer2.setAsset(spinSoundPath);
@@ -287,7 +287,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                               SpinApi.random == 6 ||
                               SpinApi.random == 9) {
                             badluckPopup(context);
-                             playSpinSoundBadPop();
+                             // playSpinSoundBadPop();
                             // audio_effect("assets/sad_audio.mpeg");
                             SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
                           } else {
@@ -610,7 +610,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                 fontSize: 20,
                                 letterSpacing: 1)),
                       if(productlist[SpinApi.random].name == "Earbud")
-                        const Text("You won Boult Audio Y1\n Worth ₹ 5499",
+                        const Text("You won Boult Audio Y1\n Worth ₹ 5500",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -618,7 +618,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                 fontSize: 20,
                                 letterSpacing: 1)),
                       if(productlist[SpinApi.random].name == "Watch")
-                        const Text("You Won Fastrack Revoltt X Smartwatch \n Worth ₹3995",
+                        const Text("You Won BeatXp Marv Neo Smartwatch \n Worth ₹6500",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
@@ -705,79 +705,90 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.transparent,
-          content: InkWell(
-            onTap: (){
+        return Padding(
+          padding: const EdgeInsets.only(top: 180),
+          child: AlertDialog(
+            backgroundColor: Colors.transparent,
+            content: InkWell(
+              onTap: (){
 
-              audioPlayer1.stop();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => Users(),
-                ),
-              );
-            },
-            child: GlassmorphicContainer(
-              height: 550,
-              width: 500,
-              alignment: Alignment.center,
-              border: 2,
-              linearGradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white.withOpacity(0.1),
-                  Colors.white.withOpacity(0.1),
-                ],
-              ),
-              borderGradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white.withOpacity(0.1),
-                  Colors.white.withOpacity(0.1),
-                ],
-              ),
-              blur: 2,
-              borderRadius: 20,
-              child: Stack(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Text(" Better Luck Next Time.",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 24,
-                              letterSpacing: 1)),
-                      Image.asset(
-                        "assets/sad2.png",
-                        height: 300,
-                      ),
-                      OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.grey.shade100,
-                            elevation: 10,
-                          ),
-                          onPressed: () {
-                            audioPlayer1.stop();
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => Users(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            "Ok",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600),
-                          ))
-                    ],
+                audioPlayer1.stop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => Users(),
                   ),
-                ],
+                );
+              },
+              child: GlassmorphicContainer(
+                height: 500,
+                width: 450,
+                alignment: Alignment.center,
+                border: 2,
+                linearGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withOpacity(0.1),
+                    Colors.white.withOpacity(0.1),
+                  ],
+                ),
+                borderGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withOpacity(0.1),
+                    Colors.white.withOpacity(0.1),
+                  ],
+                ),
+                blur: 2,
+                borderRadius: 20,
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        const Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 150,
+                              backgroundColor: Colors.white70,
+                            ),
+
+                            Positioned(
+                             left:0,top:0,bottom:4,right: 2,
+                              child: CircleAvatar(
+                                radius: 150,backgroundColor: Colors.transparent,
+                                backgroundImage: AssetImage( "assets/1.png",),
+                              ),
+                            ),
+
+                          ],
+                        ),
+
+                        OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.grey.shade100,
+                              elevation: 10,
+                            ),
+                            onPressed: () {
+                              audioPlayer1.stop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Users(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Ok",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            ))
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
