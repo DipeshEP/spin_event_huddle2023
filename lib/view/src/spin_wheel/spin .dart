@@ -86,8 +86,8 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
           child: Lottie.asset(
             defaultLottie,
             controller: _defaultLottieController,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+            height:800,
+            width: 800,
             fit: BoxFit.fill,
           ),
         ),
@@ -258,248 +258,245 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                 );
               }
             },
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Stack(
-                children: [
-                  _buildLotties(),
-                  const Center(
-                    child: CircleAvatar(
-                      backgroundColor: Color(0xff8dca87),
-                      radius: 540,
-                    ),
+            child: Stack(
+              children: [
+                _buildLotties(),
+                const Center(
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xff8dca87),
+                    radius: 550,
                   ),
-                  Center(
-                    child: SizedBox(
-                      width: 850,
-                      height: 800,
-                      child: FortuneWheel(
-                        indicators: [],
-                        duration: const Duration(seconds: 20),
-                        onAnimationStart: () {
-                          SpinApi.voucherLink100();
-                          SpinApi.voucherLink200();
-                          SpinApi.decrementCount();
-                        },
-                        onAnimationEnd: () {
-                          if (SpinApi.random == 0 ||
-                              SpinApi.random == 3 ||
-                              SpinApi.random == 6 ||
-                              SpinApi.random == 9) {
-                            badluckPopup(context);
-                             // playSpinSoundBadPop();
-                            // audio_effect("assets/sad_audio.mpeg");
+                ),
+                Center(
+                  child: SizedBox(
+                    width: 1100,
+                    height: 1000,
+                    child: FortuneWheel(
+                      indicators: [],
+                      duration: const Duration(seconds: 20),
+                      onAnimationStart: () {
+                        SpinApi.voucherLink100();
+                        SpinApi.voucherLink200();
+                        SpinApi.decrementCount();
+                      },
+                      onAnimationEnd: () {
+                        if (SpinApi.random == 0 ||
+                            SpinApi.random == 3 ||
+                            SpinApi.random == 6 ||
+                            SpinApi.random == 9) {
+                          badluckPopup(context);
+                           // playSpinSoundBadPop();
+                          // audio_effect("assets/sad_audio.mpeg");
+                          SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
+                        } else {
+                          if( SpinApi.random == 0 || SpinApi.random==7 || SpinApi.random ==10){
+
+                            print(               widget.user.usId             );
+                            print(               widget.user.name             );
                             SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
-                          } else {
-                            if( SpinApi.random == 0 || SpinApi.random==7 || SpinApi.random ==10){
-
-                              print(               widget.user.usId             );
-                              print(               widget.user.name             );
-                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
-                              // SpinApi.sendMessage(widget.user.usId!,
-                              //     '${SpinApi.voucherListOne[0]['link']}',
-                              //     "text",
-                              //     widget.user.pushToken!);
-                              if (lastSentIndex < SpinApi.voucherListOne.length) {
-                                // Check if there are more messages in the list
-                                String msggg="You have won the voucher.\n"
-                                    "You will receive it within 24 hours";
-                                // String messageToSend = SpinApi.voucherListOne[lastSentIndex]['link'];
-                                 SpinApi.sendMessage(widget.user.usId!, msggg, "text", widget.user.pushToken!);
-                                //
-                                // // Update the last sent index
-                                // SpinApi.voucherListOne.removeAt(0);
-                              } else {
-                                // No more messages to send
-                                print("All messages have been sent.");
-                              }
-
-
-                              popup(context, productlist);
-                              playSpinSoundCong();
-                              // player.open(Audio.file("assets/congratulation_audio.mpeg"));
-                              _defaultLottieController
-                                  .forward()
-                                  .then(
-                                      (value) => _defaultLottieController.reset());
+                            // SpinApi.sendMessage(widget.user.usId!,
+                            //     '${SpinApi.voucherListOne[0]['link']}',
+                            //     "text",
+                            //     widget.user.pushToken!);
+                            if (lastSentIndex < SpinApi.voucherListOne.length) {
+                              // Check if there are more messages in the list
+                              String msggg="You have won the voucher.\n"
+                                  "You will receive it within 24 hours";
+                              // String messageToSend = SpinApi.voucherListOne[lastSentIndex]['link'];
+                               SpinApi.sendMessage(widget.user.usId!, msggg, "text", widget.user.pushToken!);
+                              //
+                              // // Update the last sent index
+                              // SpinApi.voucherListOne.removeAt(0);
+                            } else {
+                              // No more messages to send
+                              print("All messages have been sent.");
                             }
-                            else if(SpinApi.random == 4){
 
-                              print(               widget.user.usId             );
-                              print(               widget.user.name             );
-                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
-                              // SpinApi.sendMessage(widget.user.usId!,
-                              //     '${SpinApi.voucherListTwo[0]['link']}',
-                              //     "text",
-                              //     widget.user.pushToken!);
-                              if (lastSentIndex < SpinApi.voucherListTwo.length) {
-                                // Check if there are more messages in the list
-                                String msgg="You have won the voucher.\n"
-                                    "You will receive it within 24 hours";
-                                //String messageToSend = SpinApi.voucherListTwo[lastSentIndex]['link'];
-                                SpinApi.sendMessage(widget.user.usId!, msgg, "text", widget.user.pushToken!);
 
-                                // Update the last sent index
-                                SpinApi.voucherListTwo.removeAt(0);
-                              } else {
-                                // No more messages to send
-                                print("All messages have been sent.");
-                              }
-                              popup(context, productlist);
-                              playSpinSoundCong();
-                              // player.open(Audio.file("assets/congratulation_audio.mpeg"));
-                              _defaultLottieController
-                                  .forward()
-                                  .then(
-                                      (value) => _defaultLottieController.reset());
-                            }else{
-
-                              print(               widget.user.usId             );
-                              print(               widget.user.name             );
-                              SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
-                              popup(context, productlist);
-                              playSpinSoundCong();
-                              _defaultLottieController
-                                  .forward()
-                                  .then(
-                                      (value) => _defaultLottieController.reset());
-
-                            }
+                            popup(context, productlist);
+                            playSpinSoundCong();
+                            // player.open(Audio.file("assets/congratulation_audio.mpeg"));
+                            _defaultLottieController
+                                .forward()
+                                .then(
+                                    (value) => _defaultLottieController.reset());
                           }
+                          else if(SpinApi.random == 4){
 
-                          SpinApi.updateUserStatus(userList.first.usId);
-                        },
-                        animateFirst: false,
-                        selected: selected.stream,
-                        items: [
-                          for (var it in productlist)
-                            FortuneItem(
-                                child: Container(
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  color: it.color,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      const SizedBox(
-                                        width: 160,
+                            print(               widget.user.usId             );
+                            print(               widget.user.name             );
+                            SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
+                            // SpinApi.sendMessage(widget.user.usId!,
+                            //     '${SpinApi.voucherListTwo[0]['link']}',
+                            //     "text",
+                            //     widget.user.pushToken!);
+                            if (lastSentIndex < SpinApi.voucherListTwo.length) {
+                              // Check if there are more messages in the list
+                              String msgg="You have won the voucher.\n"
+                                  "You will receive it within 24 hours";
+                              //String messageToSend = SpinApi.voucherListTwo[lastSentIndex]['link'];
+                              SpinApi.sendMessage(widget.user.usId!, msgg, "text", widget.user.pushToken!);
+
+                              // Update the last sent index
+                              SpinApi.voucherListTwo.removeAt(0);
+                            } else {
+                              // No more messages to send
+                              print("All messages have been sent.");
+                            }
+                            popup(context, productlist);
+                            playSpinSoundCong();
+                            // player.open(Audio.file("assets/congratulation_audio.mpeg"));
+                            _defaultLottieController
+                                .forward()
+                                .then(
+                                    (value) => _defaultLottieController.reset());
+                          }else{
+
+                            print(               widget.user.usId             );
+                            print(               widget.user.name             );
+                            SpinApi.updateWinedProduct(widget.user.usId,productlist[SpinApi.random].name);
+                            popup(context, productlist);
+                            playSpinSoundCong();
+                            _defaultLottieController
+                                .forward()
+                                .then(
+                                    (value) => _defaultLottieController.reset());
+
+                          }
+                        }
+
+                        SpinApi.updateUserStatus(userList.first.usId);
+                      },
+                      animateFirst: false,
+                      selected: selected.stream,
+                      items: [
+                        for (var it in productlist)
+                          FortuneItem(
+                              child: Container(
+                                width: 600,
+                                height: double.infinity,
+                                color: it.color,
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    const SizedBox(
+                                      width: 160,
+                                    ),
+
+                                    it.name == "Voucher"
+                                        ? Transform.rotate(
+                                        angle: pi / 0.2,
+                                        child: Image(
+                                          image: it.image,
+                                          height: 90,
+                                        ))
+                                        :  it.name == "Earbud" ?
+
+                                    Transform.rotate(
+                                      angle: pi / 0.4,
+                                      child: Image(
+                                        image: it.image,
+                                        height: 160,
                                       ),
-
-                                      it.name == "Voucher"
-                                          ? Transform.rotate(
-                                          angle: pi / 0.2,
-                                          child: Image(
-                                            image: it.image,
-                                            height: 90,
-                                          ))
-                                          :  it.name == "Earbud" ?
-
-                                      Transform.rotate(
-                                        angle: pi / 0.4,
+                                    )
+                                        :  it.name == "Watch" ?
+                                    Transform.rotate(
+                                      angle: pi / 0.4,
+                                      child: Image(
+                                        image: it.image,
+                                        height: 160,
+                                      ),
+                                    )  : it.name== 'Speaker'?
+                                    Transform.rotate(
+                                      angle: pi / 0.4,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 50),
                                         child: Image(
                                           image: it.image,
-                                          height: 160,
+                                          height: 120,
                                         ),
-                                      )
-                                          :  it.name == "Watch" ?
-                                      Transform.rotate(
-                                        angle: pi / 0.4,
+                                      ),
+                                    ):it.name== 'Repeat'?
+                                    Transform.rotate(
+                                      angle: pi / 0.4,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 50),
                                         child: Image(
                                           image: it.image,
-                                          height: 160,
+                                          height: 100,
                                         ),
-                                      )  : it.name== 'Speaker'?
-                                      Transform.rotate(
-                                        angle: pi / 0.4,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(bottom: 50),
-                                          child: Image(
-                                            image: it.image,
-                                            height: 120,
-                                          ),
+                                      ),
+                                    ):
+                                    Transform.rotate(
+                                      angle: pi / 0.4,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(bottom: 40),
+                                        child: Image(
+                                          image: it.image,
+                                          height: 120,
                                         ),
-                                      ):it.name== 'Repeat'?
-                                      Transform.rotate(
-                                        angle: pi / 0.4,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(bottom: 50),
-                                          child: Image(
-                                            image: it.image,
-                                            height: 100,
-                                          ),
-                                        ),
-                                      ):
-                                      Transform.rotate(
-                                        angle: pi / 0.4,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(bottom: 40),
-                                          child: Image(
-                                            image: it.image,
-                                            height: 120,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                        ],
-                      ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 230),
-                    child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Image.asset(
-                          "assets/arrow.png",
-                          height: 120,
-                          color: Colors.red,
-                        )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 230),
+                  child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Image.asset(
+                        "assets/arrow.png",
+                        height: 120,
+                        color: Colors.red,
+                      )),
+                ),
+                _buildLotties(),
+                Center(
+                  child: CircleAvatar(
+                    radius: 84,
+                    backgroundColor: Colors.grey,
                   ),
-                  _buildLotties(),
-                  Center(
-                    child: CircleAvatar(
-                      radius: 84,
-                      backgroundColor: Colors.grey,
-                    ),
-                  ),
-                   Center(
-                     child: CircleAvatar(
-                       radius: 80,
-                       backgroundColor: Colors.black,
-                     ),
+                ),
+                 Center(
+                   child: CircleAvatar(
+                     radius: 80,
+                     backgroundColor: Colors.black,
                    ),
-                   Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 26),
-                        child: Image(
-                          height: 120,
-                          width: 120,
-                          image:  AssetImage("assets/Logo28-WB - Copy.png",),
-                        ),
+                 ),
+                 Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 26),
+                      child: Image(
+                        height: 120,
+                        width: 120,
+                        image:  AssetImage("assets/Logo28-WB - Copy.png",),
                       ),
-                      // Container(
-                      //   width: 180,
-                      //   height: 180,
-                      //   decoration: BoxDecoration(
-                      //     shape: BoxShape.circle,
-                      //     color: Colors.black,
-                      //     // image: DecorationImage(
-                      //
-                      //     //   image:  AssetImage("assets/Logo28-WB - Copy.png",),
-                      //     // )
-                      //   ),
-                      //   child:
-                      //
-                      // ),
-                      // Image(
-                      //   image: AssetImage("assets/center_button.png"),
-                      //   height: 160,
-                      // ),
-                  )
-                ],
-              ),
+                    ),
+                    // Container(
+                    //   width: 180,
+                    //   height: 180,
+                    //   decoration: BoxDecoration(
+                    //     shape: BoxShape.circle,
+                    //     color: Colors.black,
+                    //     // image: DecorationImage(
+                    //
+                    //     //   image:  AssetImage("assets/Logo28-WB - Copy.png",),
+                    //     // )
+                    //   ),
+                    //   child:
+                    //
+                    // ),
+                    // Image(
+                    //   image: AssetImage("assets/center_button.png"),
+                    //   height: 160,
+                    // ),
+                )
+              ],
             ),
           )),
     );
