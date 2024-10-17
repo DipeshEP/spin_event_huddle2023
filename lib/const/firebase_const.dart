@@ -4,8 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
 
-const user = "users";
-const spinEventCollection = "spinEvent";
+
+const eventNameCollection ="Huddle2k24";
+const spinEvent ="spinEvent";
+const logicDoc = 'logic';
+const eventUsers="EventUser";
+// const user = "users";
+// const spinEventCollection = "spinEvent";
 const productDoc = "product";
 const logic = "logic";
 const day1 = "day1";

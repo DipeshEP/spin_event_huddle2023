@@ -19,9 +19,14 @@ class SpinApi {
   static List voucherListTwo =[];
   static String reachOutID = 'clmg807fu002zyfnu66f2ggqh';
   List<DocumentSnapshot> products = [];
- static List<int> cherrylist = [0,3,11,6,9,11];
-  List<int> voucherlist = [4,4];
-  List<int> prevoucherlist = [1,7, 10];
+ static List<int> cherrylist = [2,5,7];
+ // static List<int> cherrylist = [0,3,11,6,9,11];
+  List<int> voucherlist = [0,1,3,4,6,];
+  // List<int> voucherlist = [4,4];
+  List<int> prevoucherlist = [0,4, 6];
+  // List<int> prevoucherlist = [1,7, 10];
+
+
   Future spinButtonClik() async {
     if(dbProducts.isNotEmpty){
          print("api page list count==========${dbProducts.length}");
@@ -82,7 +87,7 @@ class SpinApi {
   static Future<void> decrementProductCount(product) async {
    
     final docRef = firestore
-        .collection(spinEventCollection)
+        .collection(spinEvent)
         .doc(productDoc)
         .collection('day')
         .doc(product);
@@ -121,13 +126,13 @@ class SpinApi {
   static Stream<QuerySnapshot<Map<String, dynamic>>> fetchUser() {
     return firestore
         .collection("spinEvent")
-        .doc("EventUser")
-        .collection(user)
+        .doc(eventUsers)
+        .collection(eventNameCollection)
         .snapshots();
   }
 
   static Future<int> getGameCount() async {
-    final docRef = firestore.collection(spinEventCollection).doc(logic);
+    final docRef = firestore.collection(spinEvent).doc(logic);
 
     DocumentSnapshot documentSnapshot = await docRef.get();
 
@@ -137,7 +142,7 @@ class SpinApi {
   }
 
   static Future<void> decrementCount() async {
-    final docRef = firestore.collection(spinEventCollection).doc(logic);
+    final docRef = firestore.collection(spinEvent).doc(logic);
     try {
       DocumentSnapshot documentSnapshot = await docRef.get();
       if (documentSnapshot.exists) {
@@ -168,7 +173,7 @@ class SpinApi {
     return firestore
         .collection("spinEvent")
         .doc("EventUser")
-        .collection(user)
+        .collection(eventNameCollection)
         .where('id', isEqualTo: uid)
         .snapshots();
   }
@@ -209,7 +214,7 @@ static  voucherLink100() async {
     await firestore
         .collection("spinEvent")
         .doc('EventUser')
-        .collection(user)
+        .collection(eventNameCollection)
         .doc(uid)
         .update({
       "is_spin": true,
@@ -219,7 +224,7 @@ static  voucherLink100() async {
     await firestore
         .collection("spinEvent")
         .doc('EventUser')
-        .collection(user)
+        .collection(eventNameCollection)
         .doc(uid)
         .update({
       "wined_product":product,
