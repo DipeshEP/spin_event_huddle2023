@@ -6,6 +6,8 @@ import 'package:spin_event_2023/model/modeluser.dart';
 import 'package:spin_event_2023/view/src/spin_wheel/profile.dart';
 import 'package:get/get.dart';
 
+import 'package:animate_do/animate_do.dart';
+
 class Users extends StatelessWidget {
   Users({super.key});
 
@@ -18,38 +20,58 @@ class Users extends StatelessWidget {
     return Container(
       color: Colors.black,
       child: Padding(
-        padding: const EdgeInsets.only(top: 100),
+        padding: const EdgeInsets.only(top: 60),
         child: Scaffold(
           backgroundColor: Colors.black,
           body: Column(
             children: [
-              const Text(
+              FadeInDown(
+                duration: const Duration(milliseconds: 500),
+                child: const Text(
                   "USERS",
                   style: TextStyle(
-                      fontSize: 25, fontWeight: FontWeight.w700, color: Colors.white),
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.greenAccent,
+                  ),
                 ),
-              const SizedBox(height: 10),
-              _buildSearchField(),
-              const SizedBox(height: 40),
+              ),
+              const SizedBox(height: 20),
+              _buildSearchFieldWithAnimation(),
+              const SizedBox(height: 20),
               Expanded(
                 child: Obx(() {
                   if (userController.userList.isEmpty) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.greenAccent,
+                      ),
+                    );
                   }
 
                   if (userController.filteredUsers.isEmpty) {
                     return Column(
                       children: [
                         Image.asset("assets/sad2.png", height: 300),
-                        Text("No user found", style: TextStyle(color: Colors.white))
+                        const Text(
+                          "No user found",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
                       ],
-                    );;
+                    );
                   }
 
                   return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: userController.filteredUsers.length,
                     itemBuilder: (context, index) {
-                      return _buildUserListTile(userController.filteredUsers[index], context);
+                      return SlideInRight(
+                        delay: Duration(milliseconds: 100 * index),
+                        child: _buildUserListTile(
+                          userController.filteredUsers[index],
+                          context,
+                        ),
+                      );
                     },
                   );
                 }),
@@ -61,40 +83,40 @@ class Users extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchField() {
-    return Container(
-      width: double.infinity,
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.2),  // Background color with opacity
-        borderRadius: BorderRadius.circular(20),  // Rounded corners
-        border: Border.all(
-          color: Colors.white.withOpacity(0.5),  // Border color with opacity
-          width: 2,  // Border width
-        ),
-      ),
-      child: TextFormField(
-        style: const TextStyle(color: Colors.white),
-        onChanged: (value) {
-          userController.query.value = value; // Update query
-          userController.filterUsers(value); // Filter users
-        },
-        cursorColor: Colors.green,
-        decoration: InputDecoration(
-          hintText: "Search",
-          hintStyle: const TextStyle(color: Colors.white, fontSize: 18),
-          prefixIconColor: Colors.white,
-          prefixIcon: const Icon(Icons.search_outlined),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: const BorderSide(color: Colors.white, width: 2.0),
+  Widget _buildSearchFieldWithAnimation() {
+    return SlideInDown(
+      duration: const Duration(milliseconds: 500),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Container(
+          width: double.infinity,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade800, // Simple background color
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: const BorderSide(color: Colors.green, width: 2.0),
+          child: TextFormField(
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+            onChanged: (value) {
+              userController.query.value = value; // Update query
+              userController.filterUsers(value); // Filter users
+            },
+            cursorColor: Colors.greenAccent,
+            decoration: InputDecoration(
+              hintText: "Search players...",
+              hintStyle: const TextStyle(color: Colors.white70, fontSize: 16),
+              prefixIcon: const Icon(Icons.search_outlined, color: Colors.white),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+            ),
           ),
-          fillColor: Colors.transparent,  // Keeping the inside transparent
-          filled: true,
         ),
       ),
     );
@@ -105,47 +127,49 @@ class Users extends StatelessWidget {
     String email = user.email!;
     var nameuser = email.split("@");
     var emailObfuscated = email.replaceRange(
-        2, nameuser[0].length, "*" * (nameuser[0].length - 2));
+      2, nameuser[0].length, "*" * (nameuser[0].length - 2),
+    );
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        elevation: 4,
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          horizontalTitleGap: 20,
-          leading: CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.grey[300],
-            backgroundImage: CachedNetworkImageProvider(
-              user.image!,
-              errorListener: (error) {
-                print('Error loading image: $error');
-              },
-            ),
-            onBackgroundImageError: (_, __) {
-
-            },
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: ZoomIn(
+        duration: const Duration(milliseconds: 500),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
           ),
-          title: Text(
-            user.name!.toUpperCase(),
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,  // Black for better readability
+          elevation: 10,
+          color: Colors.grey.shade800, // Dark card background
+          shadowColor: Colors.greenAccent.withOpacity(0.7), // Neon shadow effect
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+            leading: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.grey.shade700,
+              backgroundImage: CachedNetworkImageProvider(
+                user.image!,
+                errorListener: (error) {
+                  print('Error loading image: $error');
+                },
+              ),
             ),
-          ),
-          subtitle: Text(
-            emailObfuscated,
-            style: const TextStyle(
-              color: Colors.black54,  // Softer color for email
-              fontSize: 14,
+            title: Text(
+              user.name!.toUpperCase(),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.greenAccent, // Green neon text
+              ),
             ),
+            subtitle: Text(
+              emailObfuscated,
+              style: const TextStyle(
+                color: Colors.white70, // Subtle color for the email
+                fontSize: 14,
+              ),
+            ),
+            trailing: _buildTrailingButton(isChecked, user, context),
           ),
-          trailing: _buildTrailingButton(isChecked, user, context),
         ),
       ),
     );
@@ -155,42 +179,61 @@ class Users extends StatelessWidget {
     return isChecked == true
         ? ElevatedButton(
       style: ElevatedButton.styleFrom(
-        fixedSize: const Size(150, 50),
+        fixedSize: const Size(100, 50),
         backgroundColor: Colors.transparent,
+        side: const BorderSide(color: Colors.red, width: 2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
       onPressed: () => _showAlreadyTriedDialog(user),
-      child: const Text(""),
+      child: const Icon(Icons.error_outline, color: Colors.red),
     )
         : ElevatedButton(
       onPressed: () {
-
         Get.to(() => Profile(user: user));
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
-        fixedSize: const Size(150, 50),
+        backgroundColor: Colors.greenAccent,
+        fixedSize: const Size(120, 50), // Slightly larger for CTA
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        shadowColor: Colors.greenAccent.withOpacity(0.5), // Glow effect
+        elevation: 10,
       ),
       child: Text(
-        "Next",
-        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white),
+        "Play",
+        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.black),
       ),
     );
   }
 
   void _showAlreadyTriedDialog(User user) {
     Get.defaultDialog(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.grey.shade900.withOpacity(0.9),
       title: "${user.name}, You Already Tried",
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Image.asset("assets/sad2.png", height: 300),
-          OutlinedButton(
-            style: OutlinedButton.styleFrom(backgroundColor: Colors.grey.shade100, elevation: 10),
-            onPressed: () => Get.back(),
-            child: const Text("Ok", style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600)),
-          ),
-        ],
+      titleStyle: const TextStyle(color: Colors.white, fontSize: 18),
+      content: ZoomIn(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image.asset("assets/sad2.png", height: 200),
+            const SizedBox(height: 20),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                backgroundColor: Colors.grey.shade100,
+                elevation: 10,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              ),
+              onPressed: () => Get.back(),
+              child: const Text(
+                "Ok",
+                style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -403,7 +403,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                         angle: pi / 0.2,
                                         child: Image(
                                           image: it.image,
-                                          height: 90,
+                                          height: 120,
                                         ))
                                     : it.name == "Earbud"
                                         ? Transform.rotate(
@@ -444,7 +444,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                                                   bottom: 50),
                                                           child: Image(
                                                             image: it.image,
-                                                            height: 100,
+                                                            height: 160,
                                                           ),
                                                         ),
                                                       )
@@ -457,7 +457,7 @@ class _SpinWheelState extends State<SpinWheel> with TickerProviderStateMixin {
                                                                   bottom: 40),
                                                           child: Image(
                                                             image: it.image,
-                                                            height: 120,
+                                                            height: 170,
                                                           ),
                                                         ),
                                                       )
