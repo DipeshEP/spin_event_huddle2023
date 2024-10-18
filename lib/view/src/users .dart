@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:spin_event_2023/controller/user_controller.dart';
 import 'package:spin_event_2023/model/modeluser.dart';
-import 'package:spin_event_2023/view/src/spin_wheel/profile.dart';
+import 'package:spin_event_2023/view/src/profile.dart';
 import 'package:get/get.dart';
 
 import 'package:animate_do/animate_do.dart';

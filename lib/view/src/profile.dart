@@ -1,14 +1,10 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:spin_event_2023/controller/spin_api.dart';
 import 'package:spin_event_2023/model/DB_product_model.dart';
 import 'package:spin_event_2023/model/modeluser.dart';
-import 'package:spin_event_2023/view/src/spin_wheel/spin%20.dart';
-
-// ignore: must_be_immutable
-import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:animate_do/animate_do.dart';
+import 'package:spin_event_2023/view/src/spinwheelPage.dart';
 
 class Profile extends StatelessWidget {
   final User user;
